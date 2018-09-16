@@ -1,0 +1,257 @@
+\documentclass[a4paper]{article}
+    \usepackage[pdftex]{hyperref}
+    \usepackage[latin1]{inputenc}
+    \usepackage[english]{babel}
+    \usepackage{a4wide}
+    \usepackage{amsmath}
+    \usepackage{amssymb}
+    \usepackage{algorithmic}
+    \usepackage{algorithm}
+    \usepackage{ifthen}
+    \usepackage{listings}
+    % move the asterisk at the right position
+    \lstset{basicstyle=\ttfamily,tabsize=4,literate={*}{${}^*{}$}1}
+    %\lstset{language=C,basicstyle=\ttfamily}
+    \usepackage{moreverb}
+    \usepackage{palatino}
+    \usepackage{multicol}
+    \usepackage{tabularx}
+    \usepackage{comment}
+    \usepackage{verbatim}
+    \usepackage{color}
+    \usepackage{enumitem}
+    
+    %% pdflatex?
+    \newif\ifpdf
+    \ifx\pdfoutput\undefined
+    \pdffalse % we are not running PDFLaTeX
+    \else
+    \pdfoutput=1 % we are running PDFLaTeX
+    \pdftrue
+    \fi
+    \ifpdf
+    \usepackage[pdftex]{graphicx}
+    \else
+    \usepackage{graphicx}
+    \fi
+    \ifpdf
+    \DeclareGraphicsExtensions{.pdf, .jpg}
+    \else
+    \DeclareGraphicsExtensions{.eps, .jpg}
+    \fi
+    
+    \parindent=0cm
+    \parskip=0cm
+    
+    \setlength{\columnseprule}{0.4pt}
+    \addtolength{\columnsep}{2pt}
+    
+    \addtolength{\textheight}{5.5cm}
+    \addtolength{\topmargin}{-26mm}
+    \pagestyle{empty}
+    
+    %%
+    %% Sheet setup
+    %% 
+    \newcommand{\coursename}{Computer Architecture and Programming Languages}
+    \newcommand{\courseno}{CO20-320241}
+     
+    \newcommand{\sheettitle}{Homework}
+    \newcommand{\mytitle}{}
+    \newcommand{\mytoday}{\textcolor{blue}{September 18}, 2018}
+    
+    % Current Assignment number
+    \newcounter{assignmentno}
+    \setcounter{assignmentno}{1}
+    
+    % Current Problem number, should always start at 1
+    \newcounter{problemno}
+    \setcounter{problemno}{1}
+    
+    %%
+    %% problem and bonus environment
+    %%
+    \newcounter{probcalc}
+    \newcommand{\problem}[2]{
+      \pagebreak[2]
+      \setcounter{probcalc}{#2}
+      ~\\
+      {\large \textbf{Problem \textcolor{blue}{\arabic{assignmentno}}.\textcolor{blue}{\arabic{problemno}}} \hspace{0.2cm}\textit{#1}} \refstepcounter{problemno}\vspace{2pt}\\}
+    
+    \newcommand{\bonus}[2]{
+      \pagebreak[2]
+      \setcounter{probcalc}{#2}
+      ~\\
+      {\large \textbf{Bonus Problem \textcolor{blue}{\arabic{assignmentno}}.\textcolor{blue}{\arabic{problemno}}} \hspace{0.2cm}\textit{#1}} \refstepcounter{problemno}\vspace{2pt}\\}
+    
+    %% some counters  
+    \newcommand{\assignment}{\arabic{assignmentno}}
+    
+    %% solution  
+    \newcommand{\solution}{\pagebreak[2]{\bf Solution:}\\}
+    
+    %% Hyperref Setup
+    \hypersetup{pdftitle={Homework \assignment},
+      pdfsubject={\coursename},
+      pdfauthor={},
+      pdfcreator={},
+      pdfkeywords={Computer Architecture and Programming Languages},
+      %  pdfpagemode={FullScreen},
+      %colorlinks=true,
+      %bookmarks=true,
+      %hyperindex=true,
+      bookmarksopen=false,
+      bookmarksnumbered=true,
+      breaklinks=true,
+      %urlcolor=darkblue
+      urlbordercolor={0 0 0.7}
+    }
+    
+    \begin{document}
+    \coursename \hfill Course: \courseno\\
+    Jacobs University Bremen \hfill \mytoday\\
+    \textcolor{blue}{Dushan Terzikj}\hfill
+    \vspace*{0.3cm}\\
+    \begin{center}
+    {\Large \sheettitle{} \textcolor{blue}{\assignment}\\}
+    \end{center}
+    
+    \problem{}{0}
+    \solution
+    \textcolor{blue}{
+        \begin{enumerate}[label=(\alph*)]
+            \item $10100_2\Rightarrow 1\times2^4+0\times2^3+1\times2^2+0\times2^1+0\times2^0=20_{10}$
+            \item Same as (a):\\
+            $11011011_2=219_{10}$
+            \item Same as (a):\\
+            $001001001_2=73_{10}$
+            \item Same as (a):\\
+            $111111111111_2=4095_{10}$
+            \item $75077_8\Rightarrow 7\times8^4+5\times8^3+0\times8^2+7\times8^1+7\times8^0=31295_{10}$
+            \item $12101_3\Rightarrow 1\times3^4+2\times3^3+1\times3^2+0\times3^1+1\times3^0=145_{10}$
+            \item $26601_7\Rightarrow 2\times7^4+6\times7^3+6\times7^2+0\times7^1+1\times7^0=7155_{10}$
+            \item $431021_5\Rightarrow 4\times5^5+3\times5^4+1\times5^3+0\times5^2+2\times5^1+1\times5^0=14511_{10}$
+        \end{enumerate}
+    }
+    
+    \problem{}{0}
+    \solution
+    \textcolor{blue}{
+        \begin{enumerate}[label=(\alph*)]
+            \item \begin{align*}
+                4272\div2&=2136 \Rightarrow 0 \Leftarrow LSB\\
+                2136\div2&=1068 \Rightarrow 0 \\
+                1068\div2&=534 \Rightarrow 0 \\
+                534\div2&=267 \Rightarrow 0 \\
+                267\div2&=133 \Rightarrow 1 \\
+                133\div2&=66 \Rightarrow 1 \\
+                66\div2&=33 \Rightarrow 0 \\
+                33\div2&=16 \Rightarrow 1 \\
+                16\div2&=8 \Rightarrow 0 \\
+                8\div2&=4 \Rightarrow 0 \\
+                4\div2&=2 \Rightarrow 0 \\
+                2\div2&=1 \Rightarrow 0 \\
+                1\div2&=0 \Rightarrow 1 \Leftarrow MSB \\
+            \end{align*}
+            $\Rightarrow 4272_{10}=1000010110000_2$
+            \item $CBA_{16} \Rightarrow C=1100_2, B=1011_2, A=1010_2\Rightarrow CBA_{16}=110010111010_2$
+            \item $B8C_{16}\Rightarrow 11\times16^2+8\times16^1+12\times16^0=2956_{10}$
+            \item Same as (c), $29D8_{16}=10712_{10}$
+            \item $8CE_{16}, 8CF_{16}, 8D0_{16}, 8D1_{16}, 8D2_{16}, 8D3_{16}$
+        \end{enumerate}
+    }
+    
+    \newpage
+    
+    \problem{}{0}
+    \solution
+    \textcolor{blue}{
+        \begin{enumerate}[label=(\alph*)]
+            \item $732_{10}\Rightarrow 7=0111_2, 3=0011_2, 2=0010_2\Rightarrow 732_{10}=011100110010_{BCD}$
+            \item 1010, 1011, 1100, 1101, 1110, 1111
+            \item $100101010110_{BCD}\Rightarrow 1001_2=9_{10}, 0101_2=5_{10}, 0110_2=6_{10}\Rightarrow 100101010110_{BCD}=956_{10}$
+            \item $77_{10}=01001101_2$\\
+            $77_{10}=8D_{16}$
+            \item $109_{10}=01101101_2$\\
+            $109_{10}=6D_{16}$
+        \end{enumerate}
+    }
+    
+    \problem{}{0}
+    \solution
+    \textcolor{blue}{
+        \begin{enumerate}[label=(\alph*)]
+            \item (iii) AND
+            \item (i) OR
+        \end{enumerate}   
+    }
+    
+    \problem{}{0}
+    \solution \\
+    \textcolor{blue}{
+        \begin{tabular}{|c|c|c|c|}
+            \hline
+            A&B&C&$A\land B\land C$ \\
+            \hline
+            1&1&1&1 \\
+            \hline
+            1&1&0&0 \\
+            \hline
+            1&0&1&0 \\
+            \hline
+            1&0&0&0 \\
+            \hline
+            0&1&1&0 \\
+            \hline
+            0&1&0&0 \\
+            \hline
+            0&0&1&0 \\
+            \hline
+            0&0&0&0 \\
+            \hline
+        \end{tabular}
+    }
+    
+    \problem{}{0}
+    \solution \\
+    \textcolor{blue}{
+        \begin{tabular}{|c|c|c|c|c|}
+            \hline
+            A&B&C&D&$A\lor B\lor C\lor D$ \\
+            \hline
+            1&1&1&1&1 \\
+            \hline
+            1&1&1&0&1 \\
+            \hline
+            1&1&0&1&1 \\
+            \hline
+            1&1&0&0&1 \\
+            \hline
+            1&0&1&1&1 \\
+            \hline
+            1&0&1&0&1 \\
+            \hline
+            1&0&0&1&1 \\
+            \hline
+            1&0&0&0&1 \\
+            \hline
+            0&1&1&1&1 \\
+            \hline
+            0&1&1&0&1 \\
+            \hline
+            0&1&0&1&1 \\
+            \hline
+            0&1&0&0&1 \\
+            \hline
+            0&0&1&1&1 \\
+            \hline
+            0&0&1&0&1 \\
+            \hline
+            0&0&0&1&1 \\
+            \hline
+            0&0&0&0&0 \\
+            \hline
+        \end{tabular}
+    }
+    
+    \end{document}
