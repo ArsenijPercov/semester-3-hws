@@ -1,0 +1,149 @@
+\documentclass[a4paper]{article}
+    \usepackage[pdftex]{hyperref}
+    \usepackage[latin1]{inputenc}
+    \usepackage[english]{babel}
+    \usepackage{a4wide}
+    \usepackage{amsmath}
+    \usepackage{amssymb}
+    \usepackage{algorithmic}
+    \usepackage{algorithm}
+    \usepackage{ifthen}
+    \usepackage{listings}
+    % move the asterisk at the right position
+    \lstset{basicstyle=\ttfamily,tabsize=4,literate={*}{${}^*{}$}1}
+    %\lstset{language=C,basicstyle=\ttfamily}
+    \usepackage{moreverb}
+    \usepackage{palatino}
+    \usepackage{multicol}
+    \usepackage{tabularx}
+    \usepackage{comment}
+    \usepackage{verbatim}
+    \usepackage{color}
+    \usepackage{enumerate}
+    \usepackage{enumitem}
+    
+    %% pdflatex?
+    \newif\ifpdf
+    \ifx\pdfoutput\undefined
+    \pdffalse % we are not running PDFLaTeX
+    \else
+    \pdfoutput=1 % we are running PDFLaTeX
+    \pdftrue
+    \fi
+    \ifpdf
+    \usepackage[pdftex]{graphicx}
+    \else
+    \usepackage{graphicx}
+    \fi
+    \ifpdf
+    \DeclareGraphicsExtensions{.pdf, .jpg}
+    \else
+    \DeclareGraphicsExtensions{.eps, .jpg}
+    \fi
+    
+    \parindent=0cm
+    \parskip=0cm
+    
+    \setlength{\columnseprule}{0.4pt}
+    \addtolength{\columnsep}{2pt}
+    
+    \addtolength{\textheight}{5.5cm}
+    \addtolength{\topmargin}{-26mm}
+    \pagestyle{empty}
+    
+    %%
+    %% Sheet setup
+    %% 
+    \newcommand{\coursename}{Formal Languages and Logic}
+    \newcommand{\courseno}{CO21-320211}
+     
+    \newcommand{\sheettitle}{Homework}
+    \newcommand{\mytitle}{}
+    \newcommand{\mytoday}{\textcolor{blue}{September 13}, 2018}
+    
+    % Current Assignment number
+    \newcounter{assignmentno}
+    \setcounter{assignmentno}{1}
+    
+    % Current Problem number, should always start at 1
+    \newcounter{problemno}
+    \setcounter{problemno}{1}
+    
+    %%
+    %% problem and bonus environment
+    %%
+    \newcounter{probcalc}
+    \newcommand{\problem}[2]{
+      \pagebreak[2]
+      \setcounter{probcalc}{#2}
+      ~\\
+      {\large \textbf{Problem \textcolor{blue}{\arabic{assignmentno}}.\textcolor{blue}{\arabic{problemno}}} \hspace{0.2cm}\textit{#1}} \refstepcounter{problemno}\vspace{2pt}\\}
+    
+    \newcommand{\bonus}[2]{
+      \pagebreak[2]
+      \setcounter{probcalc}{#2}
+      ~\\
+      {\large \textbf{Bonus Problem \textcolor{blue}{\arabic{assignmentno}}.\textcolor{blue}{\arabic{problemno}}} \hspace{0.2cm}\textit{#1}} \refstepcounter{problemno}\vspace{2pt}\\}
+    
+    %% some counters  
+    \newcommand{\assignment}{\arabic{assignmentno}}
+    
+    %% solution  
+    \newcommand{\solution}{\pagebreak[2]{\bf Solution:}\\}
+    
+    %% Hyperref Setup
+    \hypersetup{pdftitle={Homework \assignment},
+      pdfsubject={\coursename},
+      pdfauthor={},
+      pdfcreator={},
+      pdfkeywords={Formal Languages and Logic},
+      %  pdfpagemode={FullScreen},
+      %colorlinks=true,
+      %bookmarks=true,
+      %hyperindex=true,
+      bookmarksopen=false,
+      bookmarksnumbered=true,
+      breaklinks=true,
+      %urlcolor=darkblue
+      urlbordercolor={0 0 0.7}
+    }
+    
+    \begin{document}
+    \coursename \hfill Course: \courseno\\
+    Jacobs University Bremen \hfill \mytoday\\
+    \textcolor{blue}{Dushan Terzikj and Dragi Kamov}\hfill
+    \vspace*{0.3cm}\\
+    \begin{center}
+    {\Large \sheettitle{} \textcolor{blue}{\assignment}\\}
+    \end{center}
+    
+    \problem{}{0}
+    
+    \solution
+    \textcolor{blue}{
+        \begin{enumerate}[label=(\alph*)]
+            \item Since $|\Sigma^*|=|\mathbb{N}|$ and $\Sigma^*$ is the set of all words over alphabet $\Sigma=\{1\}$, then the number of words that exist is the number of natural numbers. Analogously, the same goes for $\Sigma=\{a, b\}$.
+            \item Since $|\Sigma^n|=|\Sigma|^n$ and $|\Sigma|=k$ we have $k^n$ words of length $n$ over an alphabet of size $k$.
+            \item Language is defined as any set made of words over some alphabet $\Sigma$. Let us denote language as $L$. $L \in Pot(\Sigma^*)$. For alphabets $\Sigma_1=\{1\}$ and $\Sigma_2=\{a, b\}$ we got that $|\Sigma_1^*|=|\mathbb{N}|$ and $|\Sigma_2^*|=|\mathbb{N}|$, which means that $|Pot(\mathbb{N})|$ number of languages exist for $\Sigma_1$ and $\Sigma_2$. \\ \\For $\Sigma_3$, where $|\Sigma_3|=k$, we can use the same reasoning as we did for $\Sigma_1$ and $\Sigma_2$. This time we are not looking for $\Sigma_3^n$, but for $\Sigma_3^*$. $|\Sigma_3^*|=|\mathbb{N}| \Rightarrow |Pot(\Sigma_3^*)|=|Pot(\mathbb{N})|$. Using the arguments for $\Sigma_1$ and $\Sigma_2$ we can deduce that $|Pot(\mathbb{N})|$ number of languages exists for alphabet $\Sigma_3$. $Pot(\mathbb{N})=2^{|\mathbb{N}|}$
+            \item Since $|\Sigma|=k$ and $|\Sigma^*|=k^n$ we can solve this part using similar reasoning to (c). $|Pot(\Sigma^*)|=2^{k^n}$ in this case. Therefore there are $2^{k^n}$ languages.
+            \item Let S be a finite alphabet $S=\{a, b\}$ and $a<b$. These are some of the finite languages on this alphabet:\\
+            $\Sigma^0=\{\epsilon\}$\\
+            $\Sigma^1=\{a, b\}$\\
+            $\Sigma^2=\{aa, ab, ba, bb\}$\\
+            $\Sigma^3=\{aaa, aab, aba, abb, baa, bab, bba, bbb\}$\\
+            ...\\
+            The injective map $i:S\rightarrow\mathbb{N}$ showing from the set of finite languages to $\mathbb{N}$ would look like this:
+            \begin{center}
+                \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+                    \hline
+                    \textbf{$\{a,b\}^*$}&\epsilon&a&b&aa&ab&ba&bb&aaa&aab&aba&abb&baa&bab&bba&bbb\\
+                    \hline
+                    \textbf{$\mathbb{N}$}&0&1&2&3&4&5&6&7&8&9&10&11&12&13&14\\
+                    \hline
+                \end{tabular}
+            \end{center}
+        \end{enumerate}
+    }
+    
+    
+    \end{document}
