@@ -1,5 +1,8 @@
 /**
- * Author: Dushan Terzikj
+ * @since       1.0.0
+ * @version     1.0.0
+ * 
+ * @author  Dushan Terzikj
  * Assignment: 1
  * Problem: 1c
  * Course: Operating Systems
