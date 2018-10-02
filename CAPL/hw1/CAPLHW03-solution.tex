@@ -1,0 +1,229 @@
+\documentclass[a4paper]{article}
+\usepackage[pdftex]{hyperref}
+\usepackage[latin1]{inputenc}
+\usepackage[english]{babel}
+\usepackage{a4wide}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{ifthen}
+\usepackage{listings}
+% move the asterisk at the right position
+\lstset{basicstyle=\ttfamily,tabsize=4,literate={*}{${}^*{}$}1}
+%\lstset{language=C,basicstyle=\ttfamily}
+\usepackage{moreverb}
+\usepackage{palatino}
+\usepackage{multicol}
+\usepackage{tabularx}
+\usepackage{comment}
+\usepackage{verbatim}
+\usepackage{color}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes.gates.logic.US,shapes.gates.logic.IEC,calc}
+
+\usepackage[left=3cm, right=3cm, top=4cm, bottom=4cm]{geometry}
+
+\usepackage{graphicx}
+
+%% pdflatex?
+\newif\ifpdf
+\ifx\pdfoutput\undefined
+\pdffalse % we are not running PDFLaTeX
+\else
+\pdfoutput=1 % we are running PDFLaTeX
+\pdftrue
+\fi
+\ifpdf
+\usepackage[pdftex]{graphicx}
+\else
+\usepackage{graphicx}
+\fi
+\ifpdf
+\DeclareGraphicsExtensions{.pdf, .jpg}
+\else
+\DeclareGraphicsExtensions{.eps, .jpg}
+\fi
+
+\parindent=0cm
+\parskip=0cm
+
+\setlength{\columnseprule}{0.4pt}
+\addtolength{\columnsep}{2pt}
+
+\addtolength{\textheight}{5.5cm}
+\addtolength{\topmargin}{-26mm}
+\pagestyle{empty}
+
+%%
+%% Sheet setup
+%% 
+\newcommand{\coursename}{Computer Architecture and Programming Languages}
+\newcommand{\courseno}{CO20-320241}
+ 
+\newcommand{\sheettitle}{Homework}
+\newcommand{\mytitle}{}
+\newcommand{\mytoday}{\textcolor{blue}{October 2}, 2018}
+
+% Current Assignment number
+\newcounter{assignmentno}
+\setcounter{assignmentno}{3}
+
+% Current Problem number, should always start at 1
+\newcounter{problemno}
+\setcounter{problemno}{1}
+
+%%
+%% problem and bonus environment
+%%
+\newcounter{probcalc}
+\newcommand{\problem}[2]{
+  \pagebreak[2]
+  \setcounter{probcalc}{#2}
+  ~\\
+  {\large \textbf{Problem \textcolor{blue}{\arabic{assignmentno}}.\textcolor{blue}{\arabic{problemno}}} \hspace{0.2cm}\textit{#1}} \refstepcounter{problemno}\vspace{2pt}\\}
+
+\newcommand{\bonus}[2]{
+  \pagebreak[2]
+  \setcounter{probcalc}{#2}
+  ~\\
+  {\large \textbf{Bonus Problem \textcolor{blue}{\arabic{assignmentno}}.\textcolor{blue}{\arabic{problemno}}} \hspace{0.2cm}\textit{#1}} \refstepcounter{problemno}\vspace{2pt}\\}
+
+%% some counters  
+\newcommand{\assignment}{\arabic{assignmentno}}
+
+%% solution  
+\newcommand{\solution}{\pagebreak[2]{\bf Solution:}\\}
+
+%% Hyperref Setup
+\hypersetup{pdftitle={Homework \assignment},
+  pdfsubject={\coursename},
+  pdfauthor={},
+  pdfcreator={},
+  pdfkeywords={Computer Architecture and Programming Languages},
+  %  pdfpagemode={FullScreen},
+  %colorlinks=true,
+  %bookmarks=true,
+  %hyperindex=true,
+  bookmarksopen=false,
+  bookmarksnumbered=true,
+  breaklinks=true,
+  %urlcolor=darkblue
+  urlbordercolor={0 0 0.7}
+}
+
+\begin{document}
+\coursename \hfill Course: \courseno\\
+Jacobs University Bremen \hfill \mytoday\\
+\textcolor{blue}{Dushan Terzikj}\hfill
+\vspace*{0.3cm}\\
+\begin{center}
+{\Large \sheettitle{} \textcolor{blue}{\assignment}\\}
+\end{center}
+
+\problem{}{0}
+\solution
+\textcolor{blue}{
+    \begin{enumerate}[label=(\alph*)]
+        \item 
+        \begin{align*}
+            (M+N)&\cdot (\overline{M}+P)\cdot (\overline{N}+\overline{P})=(M\cdot\overline{M}+M\cdot P+N\cdot\overline{M}+N\cdot P)\cdot (\overline{N}+\overline{P}) \\
+            &=(0+M\cdot P\cdot\overline{N}+M\cdot P\cdot\overline{P}+N\cdot\overline{N}\cdot\overline{M}+N\cdot\overline{M}\cdot\overline{P}+N\cdot\overline{N}\cdot P+N\cdot P\cdot\overline{P})\\
+            &=M\cdot P\cdot\overline{N}+0+0+N\cdot\overline{M}\cdot\overline{P}+0+0\\
+            &=M\cdot P\cdot\overline{N}+N\cdot\overline{M}\cdot\overline{P}
+        \end{align*}
+        \item
+        \begin{align*}
+            \overline{A}\cdot B\cdot\overline{C}&+A\cdot B\cdot\overline{C}+B\cdot\overline{C}\cdot D=B\cdot\overline{C}\cdot(\overline{A}+A)+B\cdot\overline{C}\cdot D\\
+            &=B\cdot\overline{C}+B\cdot\overline{C}\cdot D\\
+            &=B\cdot\overline{C}(1+D)\\
+            &=B\cdot\overline{C}
+        \end{align*}
+        \item
+        \begin{align*}
+            \overline{(M+N+P)&\cdot Q}=\overline{M\cdot Q+N\cdot Q+P\cdot Q}\\
+            &=(\overline{M\cdot Q})\cdot (\overline{N\cdot Q})\cdot (\overline{P\cdot Q})\\
+            &=(\overline{M}+\overline{Q})\cdot (\overline{N}+\overline{Q})\cdot (\overline{P}+\overline{Q})
+        \end{align*}
+        \item
+        \begin{align*}
+            (\overline{A\cdot B\cdot C+D\cdot E\cdot F})&=(\overline{A\cdot B\cdot C})\cdot (\overline{D\cdot E\cdot F})\\
+            &=(\overline{A}+\overline{B}+\overline{C})\cdot (\overline{D}+\overline{E}+\overline{F})
+        \end{align*}
+        \item
+        \begin{align*}
+            \overline{(A\cdot\overline{B})+(C\cdot\overline{D})+(E\cdot F)}&=\overline{(A\cdot\overline{B})}\cdot \overline{(C\cdot\overline{D})}\cdot \overline{(E\cdot F)}\\
+            &=(\overline{A}+ B)\cdot (\overline{C}+ D)\cdot (\overline{E}+ \overline{F})
+        \end{align*}
+        \item
+        \begin{align*}
+             \overline{ \overline{ A + B \cdot \overline{ C}} + D \cdot \overline{ (E + \overline{ F})}} &=
+ \overline{ \overline{ A} \cdot (\overline{ B} + C) + D \cdot \overline{ E} \cdot F} \\&=
+     \overline{ \overline{ A} \cdot \overline{ B} + \overline{ A} \cdot C + D \cdot \overline{ E} \cdot F} \\&=
+     \overline{ \overline{ A} \cdot \overline{ B} \cdot \overline{ \overline{ A} \cdot C} \cdot D \cdot \overline{ E} \cdot F} \\&=
+     (A + B) \cdot (A + \overline{ C}) \cdot (\overline{ D} + E + \overline{ F}) 
+        \end{align*}
+    \end{enumerate}
+}
+
+\problem{}{0}
+\solution
+\textcolor{blue}{
+    The logic circuit corresponds to:
+    \begin{equation}
+        (\overline{ A} \cdot \overline{ B} \cdot D) + (A \cdot \overline{ B} \cdot \overline{ C}) + (\overline{ A} \cdot \overline{ B} \cdot \overline{ C})
+    \end{equation}
+    Behold, the K-Map for logic circuit (1):
+    \begin{center}
+        \begin{tabular}{|c|c|c|c|c|}
+            \hline
+            &$C\cdot D$&$C\cdot\overline{D}$&$\overline{C}\cdot D$&$\overline{C}\cdot\overline{D}$ \\ \hline
+            $A\cdot B$&0&0&0&$0_4$ \\ \hline
+            $A\cdot\overline{B}$&0&0&1&$1_8$ \\ \hline
+            $\overline{A}\cdot B$&0&0&0&$0_{12}$ \\ \hline
+            $\overline{A}\cdot\overline{B}$&1&0&1&$1_{16}$ \\ \hline
+        \end{tabular}
+    \end{center}
+    From loop$_{7,8}$ and loop$_{13, 15, 16}$ we get:
+    \begin{equation}
+        A \cdot \overline{ B} \cdot \overline{ C} + \overline{ A} \cdot \overline{ B} \cdot (D + \overline{ C} \cdot \overline{ D}) 
+    \end{equation}
+}
+
+\problem{}{0}
+\solution
+\textcolor{blue}{
+    \includegraphics[width=140mm]{3_3.jpeg}
+}
+
+\problem{}{0}
+\solution
+\textcolor{blue}{
+    \includegraphics[width=140mm]{3_4.jpeg}
+}
+
+\problem{}{0}
+\solution
+\textcolor{blue}{
+    \includegraphics[width=140mm]{3_5.jpeg}
+}
+
+\problem{}{0}
+\solution
+\textcolor{blue}{
+    \includegraphics[width=140mm]{3_6.jpeg}
+}
+
+\problem{}{0}
+\solution
+\textcolor{blue}{
+    \begin{enumerate}[label=(\alph*)]
+        \item Since both latches are PGT, we need the clocks to be positive, i.e. high in order to make a change. For that reason B and C have to be high. Since K is always low in both latches, the only way Y is going to be HIGH is when X is going to be HIGH and that is going to happen if A is HIGH.
+        \item CLR keeps a constant negative. However, we can use it in order to reset the values. When the START pulse is negative CLR goes positive, therefore resetting the X and Y value.
+        \item
+        \includegraphics[width=140mm]{logic.jpg}
+    \end{enumerate}
+}
+
+\end{document}
