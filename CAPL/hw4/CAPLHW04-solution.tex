@@ -1,0 +1,256 @@
+\documentclass[a4paper]{article}
+    \usepackage[pdftex]{hyperref}
+    \usepackage[latin1]{inputenc}
+    \usepackage[english]{babel}
+    \usepackage{a4wide}
+    \usepackage{amsmath}
+    \usepackage{amssymb}
+    \usepackage{algorithmic}
+    \usepackage{algorithm}
+    \usepackage{ifthen}
+    \usepackage{listings}
+    % move the asterisk at the right position
+    \lstset{basicstyle=\ttfamily,tabsize=4,literate={*}{${}^*{}$}1}
+    %\lstset{language=C,basicstyle=\ttfamily}
+    \usepackage{moreverb}
+    \usepackage{palatino}
+    \usepackage{multicol}
+    \usepackage{tabularx}
+    \usepackage{comment}
+    \usepackage{verbatim}
+    \usepackage{color}
+    \usepackage{enumitem}
+    \usepackage{tikz}
+    \usetikzlibrary{arrows,shapes.gates.logic.US,shapes.gates.logic.IEC,calc}
+    
+    \usepackage[left=3cm, right=3cm, top=4cm, bottom=4cm]{geometry}
+    
+    \usepackage{graphicx}
+    
+    %% pdflatex?
+    \newif\ifpdf
+    \ifx\pdfoutput\undefined
+    \pdffalse % we are not running PDFLaTeX
+    \else
+    \pdfoutput=1 % we are running PDFLaTeX
+    \pdftrue
+    \fi
+    \ifpdf
+    \usepackage[pdftex]{graphicx}
+    \else
+    \usepackage{graphicx}
+    \fi
+    \ifpdf
+    \DeclareGraphicsExtensions{.pdf, .jpg}
+    \else
+    \DeclareGraphicsExtensions{.eps, .jpg}
+    \fi
+    
+    \parindent=0cm
+    \parskip=0cm
+    
+    \setlength{\columnseprule}{0.4pt}
+    \addtolength{\columnsep}{2pt}
+    
+    \addtolength{\textheight}{5.5cm}
+    \addtolength{\topmargin}{-26mm}
+    \pagestyle{empty}
+    
+    %%
+    %% Sheet setup
+    %% 
+    \newcommand{\coursename}{Computer Architecture and Programming Languages}
+    \newcommand{\courseno}{CO20-320241}
+     
+    \newcommand{\sheettitle}{Homework}
+    \newcommand{\mytitle}{}
+    \newcommand{\mytoday}{\textcolor{blue}{October 9}, 2018}
+    
+    % Current Assignment number
+    \newcounter{assignmentno}
+    \setcounter{assignmentno}{4}
+    
+    % Current Problem number, should always start at 1
+    \newcounter{problemno}
+    \setcounter{problemno}{1}
+    
+    %%
+    %% problem and bonus environment
+    %%
+    \newcounter{probcalc}
+    \newcommand{\problem}[2]{
+      \pagebreak[2]
+      \setcounter{probcalc}{#2}
+      ~\\
+      {\large \textbf{Problem \textcolor{blue}{\arabic{assignmentno}}.\textcolor{blue}{\arabic{problemno}}} \hspace{0.2cm}\textit{#1}} \refstepcounter{problemno}\vspace{2pt}\\}
+    
+    \newcommand{\bonus}[2]{
+      \pagebreak[2]
+      \setcounter{probcalc}{#2}
+      ~\\
+      {\large \textbf{Bonus Problem \textcolor{blue}{\arabic{assignmentno}}.\textcolor{blue}{\arabic{problemno}}} \hspace{0.2cm}\textit{#1}} \refstepcounter{problemno}\vspace{2pt}\\}
+    
+    %% some counters  
+    \newcommand{\assignment}{\arabic{assignmentno}}
+    
+    %% solution  
+    \newcommand{\solution}{\pagebreak[2]{\bf Solution:}\\}
+    
+    %% Hyperref Setup
+    \hypersetup{pdftitle={Homework \assignment},
+      pdfsubject={\coursename},
+      pdfauthor={},
+      pdfcreator={},
+      pdfkeywords={Computer Architecture and Programming Languages},
+      %  pdfpagemode={FullScreen},
+      %colorlinks=true,
+      %bookmarks=true,
+      %hyperindex=true,
+      bookmarksopen=false,
+      bookmarksnumbered=true,
+      breaklinks=true,
+      %urlcolor=darkblue
+      urlbordercolor={0 0 0.7}
+    }
+    
+    \begin{document}
+    \coursename \hfill Course: \courseno\\
+    Jacobs University Bremen \hfill \mytoday\\
+    \textcolor{blue}{Dushan Terzikj}\hfill
+    \vspace*{0.3cm}\\
+    \begin{center}
+    {\Large \sheettitle{} \textcolor{blue}{\assignment}\\}
+    \end{center}
+    
+    \problem{}{0}
+    \solution
+    \textcolor{blue}{
+        The algebraic expression for the logic circuit is the following:
+        \begin{align}
+            (A\oplus B)\cdot \overline{(B\oplus C)}\cdot C=X
+        \end{align}
+        And here is the truth table for the same expression:
+        \begin{center}
+            \begin{tabular}{|c|c|c|c|}
+            \hline
+            A&B&C&X  \\ \hline
+            0&0&0&0  \\ \hline
+            0&0&1&0  \\ \hline
+            0&1&0&0  \\ \hline
+            0&1&1&1  \\ \hline
+            1&0&0&0  \\ \hline
+            1&0&1&0  \\ \hline
+            1&1&0&0  \\ \hline
+            1&1&1&0  \\ \hline
+            \end{tabular}
+        \end{center}
+        According the to table, the following inputs is necessary for $X=1$:
+        \begin{align*}
+            A=0,\text{ }&B=C=1
+        \end{align*}
+    }
+    
+    \problem{}{0}
+    \solution
+    \textcolor{blue}{
+        \begin{enumerate}[label=(\alph*)]
+            \item 
+            \begin{equation}
+                \overline{(A\cdot B+C)}\oplus ((B+C)\cdot\overline{A})=Y
+            \end{equation}
+            \begin{center}
+                \begin{tabular}{|c|c|c|c|}
+                    \hline
+                    A&B&C&Y  \\ \hline
+                    0&0&0&1  \\ \hline
+                    0&0&1&1  \\ \hline
+                    0&1&0&0  \\ \hline
+                    0&1&1&1  \\ \hline
+                    1&0&0&1  \\ \hline
+                    1&0&1&0  \\ \hline
+                    1&1&0&0  \\ \hline
+                    1&1&1&0  \\ \hline
+                \end{tabular}
+            \end{center}
+            \item
+            \begin{align*}
+                \overline{A}\cdot\overline{B}\cdot\overline{C}&+\overline{A}\cdot\overline{B}\cdot C+\overline{A}\cdot B\cdot C+A\cdot\overline{B}\cdot\overline{C}\\
+                &=\overline{A}\cdot\overline{B}\cdot(\overline{C}+C)+\overline{A}\cdot B\cdot C+A\cdot\overline{B}\cdot\overline{C}\\
+                &=\overline{A}\cdot\overline{B}+\overline{A}\cdot B\cdot C+A\cdot\overline{B}\cdot\overline{C}
+            \end{align*}
+        \end{enumerate}
+    }
+    
+    \problem{}{0}
+    \solution
+    \textcolor{blue}{
+        \begin{enumerate}[label=(\alph*)]
+            \item $27_{10}=00011011_2$
+            \item $66_{10}=01000010_2$
+            \item $-18_{10}=00010010_2\xrightarrow[]{\text{invert bits}}11101101_2\xrightarrow[]{\text{add 1}}11101110_2$
+            \item $127_{10}=01111111_2$
+            \item $-127_{10}=01111111_2\xrightarrow[]{\text{invert bits}}1000000_2\xrightarrow[]{\text{add 1}}10000001_2$
+            \item $-128_{10}=10000000_2\xrightarrow[]{\text{invert bits}}01111111_2\xrightarrow[]{\text{add 1}}10000000_2$
+            \item $131_{10}=10000011_2$
+            \item $-7_{10}=00000111_2\xrightarrow[]{\text{invert bits}}11111000_2\xrightarrow[]{\text{add 1}}11111001_2$
+        \end{enumerate}
+    }
+    
+    \problem{}{0}
+    \solution
+    \textcolor{blue}{
+        \begin{enumerate}[label=(\alph*)]
+            \item $00011000_2=24_{10}$
+            \item $11110101_2\xrightarrow{\text{invert bits}}00001010_2\xrightarrow{\text{add 1}}00001011_2=-11_{10}$
+            \item $01011011_2=91_{10}$
+            \item $10110110_2\xrightarrow{\text{invert bits}}01001001_2\xrightarrow{\text{add 1}}01001010_2=-74_{10}$
+            \item $11111111_2\xrightarrow{\text{invert bits}}00000000_2\xrightarrow{\text{add 1}}00000001_2=-1_{10}$
+            \item $01101111_2=111_{10}$
+            \item $10000001_2\xrightarrow{\text{invert bits}}01111110_2\xrightarrow{\text{add 1}}01111111_2=-127_{10}$
+            \item $10000000_2\xrightarrow{\text{invert bits}}01111111_2\xrightarrow{\text{add 1}}10000000_2=-128_{10}$
+        \end{enumerate}
+    }
+    
+    \problem{}{0}
+    \solution
+    \textcolor{blue}{
+        \begin{enumerate}[label=(\alph*)]
+            \item $27_{10}=00100111_{\text{BCD}}$\\
+            $36_{10}=00110110_{\text{BCD}}$ \\ \\
+            \begin{tabular}{ccc}
+                &$00100111$&  \\
+                +&$00110110$& \\ \hline
+                &$01011101$&$\leftarrow$Invalid code groups, add $6$ \\
+                +&$\text{****}0110$& \\ \hline
+                &$01100011$&
+            \end{tabular}\\ \\
+            $01100011_{\text{BCD}}=63_{10}$
+            \item $73_{10}=01110011_{\text{BCD}}$\\
+            $29_{10}=00101001_{\text{BCD}}$ \\ \\
+            \begin{tabular}{ccc}
+                &$01110011$&  \\
+                +&$0010100$& \\ \hline
+                &$10011100$&$\leftarrow$Invalid code groups, add $6$ \\
+                +&$\text{****}0110$& \\ \hline
+                &$10100010$&$\leftarrow$Invalid code groups, add $6$ \\
+                +&$0110\text{****}$& \\ \hline
+                &$000100000010$&
+            \end{tabular}\\ \\
+            $000100000010_{\text{BCD}}=102_{10}$
+        \end{enumerate}
+    }
+    \newpage
+    
+    \problem{}{0}
+    \solution
+    \textcolor{blue}{
+        \begin{enumerate}[label=(\alph*)]
+            \item Since all 8 bits are used for magnitude the range is $[0, 2^8-1]$.
+            \item Since one bit is used for sign, the range is $[-2^7, 2^7-1]$.
+            \item Like (a) the range is $[0, 2^{11}-1]$.
+            \item Like (b) the range is $[-2^{10}, 2^{10}-1]$.
+            \item Like (b) and (d) the range is $[-2^{15}, 2^{15}-1]$.
+        \end{enumerate}
+    }
+    
+    \end{document}
