@@ -1,0 +1,188 @@
+\documentclass[a4paper]{article}
+    \usepackage[pdftex]{hyperref}
+    \usepackage[latin1]{inputenc}
+    \usepackage[english]{babel}
+    \usepackage{a4wide}
+    \usepackage{amsmath}
+    \usepackage{amssymb}
+    \usepackage{algorithmic}
+    \usepackage{algorithm}
+    \usepackage{ifthen}
+    \usepackage{listings}
+    % move the asterisk at the right position
+    \lstset{basicstyle=\ttfamily,tabsize=4,literate={*}{${}^*{}$}1}
+    %\lstset{language=C,basicstyle=\ttfamily}
+    \usepackage{moreverb}
+    \usepackage{palatino}
+    \usepackage{multicol}
+    \usepackage{tabularx}
+    \usepackage{comment}
+    \usepackage{verbatim}
+    \usepackage{color}
+    \usepackage{enumitem}
+    \usepackage{tikz}
+    \usetikzlibrary{arrows,shapes.gates.logic.US,shapes.gates.logic.IEC,calc}
+    
+    \usepackage[left=3cm, right=3cm, top=4cm, bottom=4cm]{geometry}
+    
+    \usepackage{graphicx}
+    
+    %% pdflatex?
+    \newif\ifpdf
+    \ifx\pdfoutput\undefined
+    \pdffalse % we are not running PDFLaTeX
+    \else
+    \pdfoutput=1 % we are running PDFLaTeX
+    \pdftrue
+    \fi
+    \ifpdf
+    \usepackage[pdftex]{graphicx}
+    \else
+    \usepackage{graphicx}
+    \fi
+    \ifpdf
+    \DeclareGraphicsExtensions{.pdf, .jpg}
+    \else
+    \DeclareGraphicsExtensions{.eps, .jpg}
+    \fi
+    
+    \parindent=0cm
+    \parskip=0cm
+    
+    \setlength{\columnseprule}{0.4pt}
+    \addtolength{\columnsep}{2pt}
+    
+    \addtolength{\textheight}{5.5cm}
+    \addtolength{\topmargin}{-26mm}
+    \pagestyle{empty}
+    
+    %%
+    %% Sheet setup
+    %% 
+    \newcommand{\coursename}{Computer Architecture and Programming Languages}
+    \newcommand{\courseno}{CO20-320241}
+     
+    \newcommand{\sheettitle}{Homework}
+    \newcommand{\mytitle}{}
+    \newcommand{\mytoday}{\textcolor{blue}{October 23}, 2018}
+    
+    % Current Assignment number
+    \newcounter{assignmentno}
+    \setcounter{assignmentno}{6}
+    
+    % Current Problem number, should always start at 1
+    \newcounter{problemno}
+    \setcounter{problemno}{1}
+    
+    %%
+    %% problem and bonus environment
+    %%
+    \newcounter{probcalc}
+    \newcommand{\problem}[2]{
+      \pagebreak[2]
+      \setcounter{probcalc}{#2}
+      ~\\
+      {\large \textbf{Problem \textcolor{blue}{\arabic{assignmentno}}.\textcolor{blue}{\arabic{problemno}}} \hspace{0.2cm}\textit{#1}} \refstepcounter{problemno}\vspace{2pt}\\}
+    
+    \newcommand{\bonus}[2]{
+      \pagebreak[2]
+      \setcounter{probcalc}{#2}
+      ~\\
+      {\large \textbf{Bonus Problem \textcolor{blue}{\arabic{assignmentno}}.\textcolor{blue}{\arabic{problemno}}} \hspace{0.2cm}\textit{#1}} \refstepcounter{problemno}\vspace{2pt}\\}
+    
+    %% some counters  
+    \newcommand{\assignment}{\arabic{assignmentno}}
+    
+    %% solution  
+    \newcommand{\solution}{\pagebreak[2]{\bf Solution:}\\}
+    
+    %% Hyperref Setup
+    \hypersetup{pdftitle={Homework \assignment},
+      pdfsubject={\coursename},
+      pdfauthor={},
+      pdfcreator={},
+      pdfkeywords={Computer Architecture and Programming Languages},
+      %  pdfpagemode={FullScreen},
+      %colorlinks=true,
+      %bookmarks=true,
+      %hyperindex=true,
+      bookmarksopen=false,
+      bookmarksnumbered=true,
+      breaklinks=true,
+      %urlcolor=darkblue
+      urlbordercolor={0 0 0.7}
+    }
+    
+    \begin{document}
+    \coursename \hfill Course: \courseno\\
+    Jacobs University Bremen \hfill \mytoday\\
+    \textcolor{blue}{Dushan Terzikj}\hfill
+    \vspace*{0.3cm}\\
+    \begin{center}
+    {\Large \sheettitle{} \textcolor{blue}{\assignment}\\}
+    \end{center}
+    
+    \problem{}{0}
+    \solution
+        Because 32-bit architecture machines have 32 registers. With 5 bits you can represent 32 decimal number (ranging from 0 to 31).
+    
+    \problem{}{0}
+    \solution
+        \begin{enumerate}[label=(\alph*)]
+        \item sub \$t2, \$t1, \$t0
+        \item lw \$s2, 4(\$s1)
+    \end{enumerate}
+    
+    \problem{}{0}
+    \solution
+        \begin{enumerate}[label=(\alph*)]
+            \item 
+            \begin{tabular}{|c|c|c|c|c|c|}
+            \hline
+                op&rs&rt&rd&shamt&funct  \\ \hline
+                000000&01000&01001&01010&00000&100010 \\ \hline 
+            \end{tabular}
+            \item
+            \begin{tabular}{|c|c|c|c|}
+            \hline
+                op&rs&rt&const  \\ \hline
+                100011&10001&10010&0000000000000100 \\ \hline 
+            \end{tabular}
+        \end{enumerate}
+    
+    \problem{}{0}
+    \solution
+    Basically \$t0 has the decimal value 613566756 and \$t1 has the decimal value 1073217536. Since \$t0 is less that \$t1, register \$t2 will have the value 1, which will result in not jumping to ELSE, but jumping to DONE. Therefore \$t2 will remain 1.
+    
+    \problem{}{0}
+    \solution
+    addi \$t0, \$0, 6 \\
+    add \$t0, \$t0, \$t0 \\
+    add \$t0, \$t0, \$t0 \textbf{$\leftarrow$ get the index of $A[6]$}\\
+    add \$t0, \$t0, \$s0 \textbf{$\leftarrow$ get the address of $A[6]$}\\
+    lw \$t1, 0(\$t0) \textbf{$\leftarrow$ get the value stored in $A[6]$}\\
+    add \$s1, \$s1, \$t1\\
+    sw, \$s1, 0(\$t0)
+    
+    \problem{}{0}
+    \solution
+    The commands from this problem are referenced from: \href{https://courses.cs.washington.edu/courses/cse378/01au/files/pdf/378-ln8.pdf}{here}.\\
+    lui \$t0 0000 0000 0010 0011 \textbf{$\leftarrow$ add the most significant 16 bits}\\
+    ori \$t0, \$t0, 0000 0000 0010 0011 \textbf{$\leftarrow$ add the least significant 16 bits}\\
+    sw \$t0, 0(\$s4)
+    
+    \newpage
+    
+    \problem{}{0}
+    \solution
+    \begin{align*}
+        &\text{add \$t0, \$0, \$0}\\
+        \text{LOOP: }&\text{slti \$t1, \$t0, 8}\\
+        &\text{beq \$t1, \$s0, EXIT}\\
+        &\text{addi \$s0, \$s0, 3}\\
+        &\text{addi, \$t0, \$t0, 1}\\
+        &\text{j LOOP}\\
+        \text{EXIT: }&
+    \end{align*}
+    
+    \end{document}
