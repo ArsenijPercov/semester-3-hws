@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/terz99/Workspace/homeworks/OS/hw3/runner.c
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+unistd.h
+-
+getopt.h
+-
+assert.h
+-
+pthread.h
+-
+errno.h
+-
+sys/time.h
+-
+
