@@ -1,0 +1,222 @@
+\documentclass[a4paper]{article}
+\usepackage[pdftex]{hyperref}
+\usepackage[latin1]{inputenc}
+\usepackage[english]{babel}
+\usepackage{a4wide}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{ifthen}
+\usepackage{listings}
+% move the asterisk at the right position
+\lstset{basicstyle=\ttfamily,tabsize=4,literate={*}{${}^*{}$}1}
+%\lstset{language=C,basicstyle=\ttfamily}
+\usepackage{moreverb}
+\usepackage{palatino}
+\usepackage{multicol}
+\usepackage{tabularx}
+\usepackage{comment}
+\usepackage{verbatim}
+\usepackage{color}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes.gates.logic.US,shapes.gates.logic.IEC,calc}
+
+\usepackage[left=3cm, right=3cm, top=4cm, bottom=4cm]{geometry}
+
+\usepackage{graphicx}
+
+%% pdflatex?
+\newif\ifpdf
+\ifx\pdfoutput\undefined
+\pdffalse % we are not running PDFLaTeX
+\else
+\pdfoutput=1 % we are running PDFLaTeX
+\pdftrue
+\fi
+\ifpdf
+\usepackage[pdftex]{graphicx}
+\else
+\usepackage{graphicx}
+\fi
+\ifpdf
+\DeclareGraphicsExtensions{.pdf, .jpg}
+\else
+\DeclareGraphicsExtensions{.eps, .jpg}
+\fi
+
+\parindent=0cm
+\parskip=0cm
+
+\setlength{\columnseprule}{0.4pt}
+\addtolength{\columnsep}{2pt}
+
+\addtolength{\textheight}{5.5cm}
+\addtolength{\topmargin}{-26mm}
+\pagestyle{empty}
+
+%%
+%% Sheet setup
+%% 
+\newcommand{\coursename}{Operating Systems}
+\newcommand{\courseno}{CO20-320202}
+ 
+\newcommand{\sheettitle}{Problem Sheet}
+\newcommand{\mytitle}{}
+\newcommand{\mytoday}{October 25, 2018}
+
+% Current Assignment number
+\newcounter{assignmentno}
+\setcounter{assignmentno}{3}
+
+% Current Problem number, should always start at 1
+\newcounter{problemno}
+\setcounter{problemno}{1}
+
+%%
+%% problem and bonus environment
+%%
+\newcounter{probcalc}
+\newcommand{\problem}[2]{
+  \pagebreak[2]
+  \setcounter{probcalc}{#2}
+  ~\\
+  {\large \textbf{Problem \arabic{assignmentno}.\arabic{problemno}} \hspace{0.2cm}\textit{#1}} \refstepcounter{problemno}\vspace{2pt}\\}
+
+\newcommand{\bonus}[2]{
+  \pagebreak[2]
+  \setcounter{probcalc}{#2}
+  ~\\
+  {\large \textbf{Bonus Problem \textcolor{blue}{\arabic{assignmentno}}.\textcolor{blue}{\arabic{problemno}}} \hspace{0.2cm}\textit{#1}} \refstepcounter{problemno}\vspace{2pt}\\}
+
+%% some counters  
+\newcommand{\assignment}{\arabic{assignmentno}}
+
+%% solution  
+\newcommand{\solution}{\pagebreak[2]{\bf Solution:}\\}
+
+%% Hyperref Setup
+\hypersetup{pdftitle={Homework \assignment},
+  pdfsubject={\coursename},
+  pdfauthor={},
+  pdfcreator={},
+  pdfkeywords={Computer Architecture and Programming Languages},
+  %  pdfpagemode={FullScreen},
+  %colorlinks=true,
+  %bookmarks=true,
+  %hyperindex=true,
+  bookmarksopen=false,
+  bookmarksnumbered=true,
+  breaklinks=true,
+  %urlcolor=darkblue
+  urlbordercolor={0 0 0.7}
+}
+
+\begin{document}
+\coursename \hfill Course: \courseno\\
+Jacobs University Bremen \hfill \mytoday\\
+Dushan Terzikj\hfill
+\vspace*{0.3cm}\\
+\begin{center}
+{\Large \sheettitle{} \assignment\\}
+\end{center}
+
+\problem{}{0}
+\solution
+\begin{enumerate}[label=\alph*)]
+    \item The physical memory has 256 frames. The reason for that is that every page has a fixed size of 1024 bytes which is 1 kilobyte and the physical memory space is 256 kilobytes. 
+    \item The logical address space has 16 bits. The reason for that is that the logical address space is limited to maximum of 64 pages: which can be represented by 6 bits, which means in the tuple $(p, d)$ (logical address tuple),  $p=6$. $d=10$, because in the physical space memory each frame has 1024 entries which can be represented with 10 bits.
+    \item The physical address space has 18 bits in total. The reason for that is that in the tuple $(f, d)$, $d$ is the same as in (b) and $f=8$, because as we said in (a), the physical memory has 256 frames which can be represented with 8 bits.
+    \item We already found the number in (b) $p=6$.
+    \item We already found that number $d=10$.
+\end{enumerate}
+
+\problem{}{0}
+\solution
+\begin{enumerate}[label=\alph*)]
+    \item
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+        \hline
+        reference string&1&2&3&4&1&1&4&2&1&2 \\ \hline
+        frame 0&1&1&3&3&1&1&1&1&1&1 \\ \hline
+        frame 1&&2&2&4&4&4&4&2&2&2 \\ \hline
+        Page fault?&yes&yes&yes&yes&yes&&&yes&& \\ \hline
+    \end{tabular}
+    \item
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+        \hline
+        reference string&1&2&3&4&1&1&4&2&1&2 \\ \hline
+        frame 0&1&1&1&4&4&4&4&4&4&4 \\ \hline
+        frame 1&&2&2&2*&1&1&1&1&1&1 \\ \hline
+        frame 2&&&3&3&3&3&3&2&2&2 \\ \hline
+        Page fault?&yes&yes&yes&yes&yes&&&yes&& \\ \hline
+    \end{tabular}
+    \item
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+        \hline
+        reference string&1&2&3&4&1&1&4&2&1&2 \\ \hline
+        frame 0&1&1&1&1&1&1&1&1&1&1 \\ \hline
+        frame 1&&2&3&4&4&4&4&2&2&2 \\ \hline
+        Page fault?&yes&yes&yes&yes&&&&yes&& \\ \hline
+    \end{tabular}
+    \item
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+        \hline
+        reference string&1&2&3&4&1&1&4&2&1&2 \\ \hline
+        frame 0&1&1&1&1&1&1&1&1&1&1 \\ \hline
+        frame 1&&2&2&2&2&2&2&2&2&2 \\ \hline
+        frame 2&&&3&4&4&4&4&4&4&4 \\ \hline
+        Page fault?&yes&yes&yes&yes&&&&&& \\ \hline
+    \end{tabular}
+    \item
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+        \hline
+        reference string&1&2&3&4&1&1&4&2&1&2 \\ \hline
+        frame 0&1&1&3&3&1&1&1&2&2&2 \\ \hline
+        frame 1&&2&2&4&4&4&4&4&1&1 \\ \hline
+        Page fault?&yes&yes&yes&yes&yes&&&yes&yes& \\ \hline
+    \end{tabular}
+    \item
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+        \hline
+        reference string&1&2&3&4&1&1&4&2&1&2 \\ \hline
+        frame 0&1&1&1&4&4&4&4&4&4&4 \\ \hline
+        frame 1&&2&2&2&1&1&1&1&1&1 \\ \hline
+        frame 2&&&3&3&3&3&3&2&2&2 \\ \hline
+        Page fault?&yes&yes&yes&yes&yes&&&yes&& \\ \hline
+    \end{tabular}
+\end{enumerate}
+
+\problem{}{0}
+\solution
+Let me compare both system using the example from problem 2 and let's say $N=3$. In other words, let us say that we have the pages $A=\{1, 2, 3, 4, 1, 1, 4, 2, 1, 2\}$ in this order. Let us denote $t_i$ where $0 \le i \le size(A)-N$ and each $t_i$ corresponds to the page demand time of the respective $A_i$. Using the working-set model we have the following table ($W_{t_{i}}$ is the working-set):\\
+\begin{center}
+\begin{tabular}{|c|c|}
+     \hline
+     Time&Working Set  \\ \hline
+     $t_0$&1,2,3$\leftarrow$Page fault \\ \hline
+     $t_1$&2,3,4$\leftarrow$Page fault \\ \hline
+     $t_2$&1,3,4$\leftarrow$Page fault \\ \hline
+     $t_3$&1,4$\leftarrow$Page fault \\ \hline
+     $t_4$&1,4 \\ \hline
+     $t_5$&1,2,4$\leftarrow$Page fault \\ \hline
+     $t_6$&1,2,4 \\ \hline
+     $t_7$&1,2$\leftarrow$Page fault \\ \hline
+\end{tabular}
+\end{center}
+If we use LRU with 3 pages allocated to each process we will have:\\
+\begin{center}
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+        \hline
+        reference string&1&2&3&4&1&1&4&2&1&2 \\ \hline
+        frame 0&1&1&1&4&4&4&4&4&4&4 \\ \hline
+        frame 1&&2&2&2&1&1&1&1&1&1 \\ \hline
+        frame 2&&&3&3&3&3&3&2&2&2 \\ \hline
+        Page fault?&yes&yes&yes&yes&yes&&&yes&& \\ \hline
+    \end{tabular}
+\end{center}
+In this case we have the same amount of page faults. However, the working-set always discards pages which are not in the interval $[t-N, t)$ but might be used again later. LRU does not do that every time (it might do it sometime if a process is least recently used, but it is used in the next page load).\\ \\
+I think LRU is preferable just because of the reasons stated above. \\ \\
+Further improvement for the working-set models is that if in the interval $[t-N, t)$ some process which was used in the interval $[t-N-1, t-1)$ is not used anymore should be kept iff the size of the working set is less than $N$.
+\end{document}
