@@ -1,0 +1,202 @@
+\documentclass[a4paper]{article}
+\usepackage[pdftex]{hyperref}
+\usepackage[latin1]{inputenc}
+\usepackage[english]{babel}
+\usepackage{a4wide}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{ifthen}
+\usepackage{listings}
+\usepackage{xcolor}
+% move the asterisk at the right position
+\lstset{basicstyle=\ttfamily,tabsize=4,literate={*}{${}^*{}$}1}
+%\lstset{language=C,basicstyle=\ttfamily}
+\usepackage{moreverb}
+\usepackage{palatino}
+\usepackage{multicol}
+\usepackage{tabularx}
+\usepackage{comment}
+\usepackage{verbatim}
+\usepackage{color}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes.gates.logic.US,shapes.gates.logic.IEC,calc}
+
+\usepackage[left=3cm, right=3cm, top=4cm, bottom=4cm]{geometry}
+
+\usepackage{graphicx}
+
+%% pdflatex?
+\newif\ifpdf
+\ifx\pdfoutput\undefined
+\pdffalse % we are not running PDFLaTeX
+\else
+\pdfoutput=1 % we are running PDFLaTeX
+\pdftrue
+\fi
+\ifpdf
+\usepackage[pdftex]{graphicx}
+\else
+\usepackage{graphicx}
+\fi
+\ifpdf
+\DeclareGraphicsExtensions{.pdf, .jpg}
+\else
+\DeclareGraphicsExtensions{.eps, .jpg}
+\fi
+
+\parindent=0cm
+\parskip=0cm
+
+\setlength{\columnseprule}{0.4pt}
+\addtolength{\columnsep}{2pt}
+
+\addtolength{\textheight}{5.5cm}
+\addtolength{\topmargin}{-26mm}
+\pagestyle{empty}
+
+%%
+%% Sheet setup
+%% 
+\newcommand{\coursename}{Computer Architecture and Programming Languages}
+\newcommand{\courseno}{CO20-320241}
+ 
+\newcommand{\sheettitle}{Homework}
+\newcommand{\mytitle}{}
+\newcommand{\mytoday}{November 27, 2018}
+
+% Current Assignment number
+\newcounter{assignmentno}
+\setcounter{assignmentno}{10}
+
+% Current Problem number, should always start at 1
+\newcounter{problemno}
+\setcounter{problemno}{1}
+
+%%
+%% problem and bonus environment
+%%
+\newcounter{probcalc}
+\newcommand{\problem}[2]{
+  \pagebreak[2]
+  \setcounter{probcalc}{#2}
+  ~\\
+  {\large \textbf{Problem \arabic{assignmentno}.\arabic{problemno}} \hspace{0.2cm}\textit{#1}} \refstepcounter{problemno}\vspace{2pt}\\}
+
+\newcommand{\bonus}[2]{
+  \pagebreak[2]
+  \setcounter{probcalc}{#2}
+  ~\\
+  {\large \textbf{Bonus Problem \arabic{assignmentno}.\arabic{problemno}} \hspace{0.2cm}\textit{#1}} \refstepcounter{problemno}\vspace{2pt}\\}
+
+%% some counters  
+\newcommand{\assignment}{\arabic{assignmentno}}
+
+%% solution  
+\newcommand{\solution}{\pagebreak[2]{\bf Solution:}\\}
+
+%% Hyperref Setup
+\hypersetup{pdftitle={Homework \assignment},
+  pdfsubject={\coursename},
+  pdfauthor={},
+  pdfcreator={},
+  pdfkeywords={Computer Architecture and Programming Languages},
+  %  pdfpagemode={FullScreen},
+  %colorlinks=true,
+  %bookmarks=true,
+  %hyperindex=true,
+  bookmarksopen=false,
+  bookmarksnumbered=true,
+  breaklinks=true,
+  %urlcolor=darkblue
+  urlbordercolor={0 0 0.7}
+}
+
+\definecolor{mGreen}{rgb}{0,0.6,0}
+\definecolor{mGray}{rgb}{0.5,0.5,0.5}
+\definecolor{mPurple}{rgb}{0.58,0,0.82}
+\definecolor{backgroundColour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{CStyle}{
+    backgroundcolor=\color{backgroundColour},   
+    commentstyle=\color{mGreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{mGray},
+    stringstyle=\color{mPurple},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2,
+    language=C
+}
+
+\begin{document}
+\coursename \hfill Course: \courseno\\
+Jacobs University Bremen \hfill \mytoday\\
+Dushan Terzikj\hfill
+\vspace*{0.3cm}\\
+\begin{center}
+{\Large \sheettitle{} \assignment}\\
+\end{center}
+
+\problem{}{0}
+\solution
+The control lines are necessary in a single-cycle datapath in order for the multiplexers to determine which input lines are needed to be included in the instruction. This depends on the opcode that the instruction has. The control lines from the control unit also \"activate/deactivate\" memory and registrar manipulations (whether in needs to read from memory, write to memory, read from registrar, write to registrar).\\ \\
+The way they interact with multiplexers is that it decides which input from the multiplexers will be used as an output. 
+
+\problem{}{0}
+\solution
+Figure done by: \textit{Brian Sherif Nasralla}, since he had a software to do it.\\ \\
+\includegraphics[width=140mm]{add-addi-datapath.png}\\ \\
+\begin{itemize}
+    \item When \textit{add} operation is being executed, first the instruction is read from memory with the help of \textit{PC}, therefore the \textit{PC} adder is shown. Since the data is read from two source registers, \textit{RegDst} is activated. \textit{WriteReg} (which is not shown in the figure) is also signaled, since we are writing to a register. \textit{ALUSrc} is deactivated at this time. \textit{ALUOp} has the value $10$. \textit{ALUSrc} determines the datapath so that both values from the source registers are put into the ALU where the operation is executed and then written to the destination register.
+    \item When \textit{addi} operation is being executed, first the instruction is read from memory with the help of \textit{PC}, therefore the \textit{PC} adder is shown. \textit{RegDst} is deactivated. The binary value flows through the sign-extend component and into the multiplexer where the \textit{ALUSrc} being activated this time, leads the bits into the ALU along with the value from one of the source registers. The \textit{ALUOp} is still 10. The operation is executed in the ALU and it is written back in the register.  
+\end{itemize}
+
+\problem{}{0}
+\solution
+Depending on the possible paths of each type of instruction, the latency is determined by the longest time-consuming instruction path.
+\begin{enumerate}[label=(\alph*)]
+    \item Whenever we have an instruction like \textit{add, and, etc.} the following logic blocks activated (considering the longest possible time-consuming instruction path):
+    \begin{itemize}
+        \item I-mem
+        \item RegF
+        \item Mux2
+        \item ALU 
+        \item Mux3
+        \item RegF
+    \end{itemize}
+    The clock cycle time will be:\\ \\
+    $450+250+2\times 30+120+3\times 30+250=1220ps$
+    \item Whenever we have \textit{sw} instruction, the following logic blocks activated (considering the longest possible time-consuming instruction path):
+    \begin{itemize}
+        \item I-mem
+        \item RegF
+        \item ALU
+        \item D-mem
+    \end{itemize}
+    The clock cycle time will be:\\ \\
+    $450+250+120+350=1170ps$
+    \item Whenever we have \textit{sw, lw, add, beq} instructions, \textit{lw} is the can be the longest possible time-consuming instruction path, the following logic blocks activated (again, considering the longest possible time-consuming instruction path):
+    \begin{itemize}
+        \item I-mem
+        \item RegF
+        \item ALU
+        \item D-mem 
+        \item Mux3
+        \item RegF
+    \end{itemize}
+    The clock cycle time will be:\\ \\
+    $450+250+120+350+3\times 30+250=1510ps$
+\end{enumerate}
+
+\end{document}
