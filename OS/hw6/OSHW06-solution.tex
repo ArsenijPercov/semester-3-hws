@@ -1,0 +1,138 @@
+\documentclass[a4paper]{article}
+\usepackage[pdftex]{hyperref}
+\usepackage[latin1]{inputenc}
+\usepackage[english]{babel}
+\usepackage{a4wide}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{ifthen}
+\usepackage{listings}
+% move the asterisk at the right position
+\lstset{basicstyle=\ttfamily,tabsize=4,literate={*}{${}^*{}$}1}
+%\lstset{language=C,basicstyle=\ttfamily}
+\usepackage{moreverb}
+\usepackage{palatino}
+\usepackage{multicol}
+\usepackage{tabularx}
+\usepackage{comment}
+\usepackage{verbatim}
+\usepackage{color}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes.gates.logic.US,shapes.gates.logic.IEC,calc}
+
+\usepackage[left=3cm, right=3cm, top=4cm, bottom=4cm]{geometry}
+
+\usepackage{graphicx}
+
+%% pdflatex?
+\newif\ifpdf
+\ifx\pdfoutput\undefined
+\pdffalse % we are not running PDFLaTeX
+\else
+\pdfoutput=1 % we are running PDFLaTeX
+\pdftrue
+\fi
+\ifpdf
+\usepackage[pdftex]{graphicx}
+\else
+\usepackage{graphicx}
+\fi
+\ifpdf
+\DeclareGraphicsExtensions{.pdf, .jpg}
+\else
+\DeclareGraphicsExtensions{.eps, .jpg}
+\fi
+
+\parindent=0cm
+\parskip=0cm
+
+\setlength{\columnseprule}{0.4pt}
+\addtolength{\columnsep}{2pt}
+
+\addtolength{\textheight}{5.5cm}
+\addtolength{\topmargin}{-26mm}
+\pagestyle{empty}
+
+%%
+%% Sheet setup
+%% 
+\newcommand{\coursename}{Operating Systems}
+\newcommand{\courseno}{CO20-320202}
+ 
+\newcommand{\sheettitle}{Problem Sheet}
+\newcommand{\mytitle}{}
+\newcommand{\mytoday}{December 6, 2018}
+
+% Current Assignment number
+\newcounter{assignmentno}
+\setcounter{assignmentno}{6}
+
+% Current Problem number, should always start at 1
+\newcounter{problemno}
+\setcounter{problemno}{1}
+
+%%
+%% problem and bonus environment
+%%
+\newcounter{probcalc}
+\newcommand{\problem}[2]{
+  \pagebreak[2]
+  \setcounter{probcalc}{#2}
+  ~\\
+  {\large \textbf{Problem \arabic{assignmentno}.\arabic{problemno}} \hspace{0.2cm}\textit{#1}} \refstepcounter{problemno}\vspace{2pt}\\}
+
+\newcommand{\bonus}[2]{
+  \pagebreak[2]
+  \setcounter{probcalc}{#2}
+  ~\\
+  {\large \textbf{Bonus Problem \textcolor{blue}{\arabic{assignmentno}}.\textcolor{blue}{\arabic{problemno}}} \hspace{0.2cm}\textit{#1}} \refstepcounter{problemno}\vspace{2pt}\\}
+
+%% some counters  
+\newcommand{\assignment}{\arabic{assignmentno}}
+
+%% solution  
+\newcommand{\solution}{\pagebreak[2]{\bf Solution:}\\}
+
+%% Hyperref Setup
+\hypersetup{pdftitle={Homework \assignment},
+  pdfsubject={\coursename},
+  pdfauthor={},
+  pdfcreator={},
+  pdfkeywords={Computer Architecture and Programming Languages},
+  %  pdfpagemode={FullScreen},
+  %colorlinks=true,
+  %bookmarks=true,
+  %hyperindex=true,
+  bookmarksopen=false,
+  bookmarksnumbered=true,
+  breaklinks=true,
+  %urlcolor=darkblue
+  urlbordercolor={0 0 0.7}
+}
+
+\begin{document}
+\coursename \hfill Course: \courseno\\
+Jacobs University Bremen \hfill \mytoday\\
+Dushan Terzikj\hfill
+\vspace*{0.3cm}\\
+\begin{center}
+{\Large \sheettitle{} \assignment\\}
+\end{center}
+
+\problem{}{0}
+\solution
+\begin{enumerate}[label=(\alph*)]
+    \item The \textit{lost+found} directory is used by \textit{fsck} when there is damage to the filesystem. Files which are lost because of corruption would be linked to the corresponding filesystem's \textit{lost+found} inode.
+    \item Available blocks are provided for the user of the filesystem to use. Free blocks also have the same function, however they are more in quantity than the available blocks. Whenever the user uses all the available blocks he cannot add more data in the filesystem, even though there are still a lot of free blocks left. Those free blocks are reserved for the root of the filesystem.
+    \item Nothing happens. The reason for that is that we just unlinked \textit{vhd.ext3}. The memory for the mounted filesystem is still in memory and it will stay there until we \textit{umount} it. 
+    \item The free inode number has decreased by 1. The reason for that is the inode has been allocated for storing the metadata of \textit{big.data}.
+    \item With the \textit{chattr +i} we added an attribute to the file \textit{big.data}. This \textit{+i} attribute means \textbf{immutable}. When a file is immutable it cannot be modified, data cannot be written to it, it cannot be deleted, it cannot be renamed, no links can be created to the file. In order to list attributes of a file, we do \textit{lsattr file\_name}.
+    \item When we execute the \textit{chroot} command, we basically changed the root of the filesystem to be \textit{mnt} instead of \textit{/}, i.e., \textit{mnt} behaves as \textit{/}. It is important to use a copy of a staticly linked version of \textit{busybox}, because it prevents linking other libraries for usage. This is the reason we cannot use some shell commands, because their libraries do not exist in our new filesystem.
+    \item
+    \item The block number increased and the inode number increased. The reason for this is that we unlinked the device \textit{vhd.ext3} before, but it was still in memory because it was mounted. Now we unmounted it, therefore fully unlinked, the inode number has increased.  
+\end{enumerate}
+
+\end{document}
