@@ -1,0 +1,185 @@
+\documentclass[a4paper]{article}
+\usepackage[pdftex]{hyperref}
+\usepackage[latin1]{inputenc}
+\usepackage[english]{babel}
+\usepackage{a4wide}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{ifthen}
+\usepackage{listings}
+% move the asterisk at the right position
+\lstset{basicstyle=\ttfamily,tabsize=4,literate={*}{${}^*{}$}1}
+%\lstset{language=C,basicstyle=\ttfamily}
+\usepackage{moreverb}
+\usepackage{palatino}
+\usepackage{multicol}
+\usepackage{tabularx}
+\usepackage{comment}
+\usepackage{verbatim}
+\usepackage{color}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes.gates.logic.US,shapes.gates.logic.IEC,calc}
+
+\usepackage[left=3cm, right=3cm, top=4cm, bottom=4cm]{geometry}
+
+\usepackage{graphicx}
+
+%% pdflatex?
+\newif\ifpdf
+\ifx\pdfoutput\undefined
+\pdffalse % we are not running PDFLaTeX
+\else
+\pdfoutput=1 % we are running PDFLaTeX
+\pdftrue
+\fi
+\ifpdf
+\usepackage[pdftex]{graphicx}
+\else
+\usepackage{graphicx}
+\fi
+\ifpdf
+\DeclareGraphicsExtensions{.pdf, .jpg}
+\else
+\DeclareGraphicsExtensions{.eps, .jpg}
+\fi
+
+\parindent=0cm
+\parskip=0cm
+
+\setlength{\columnseprule}{0.4pt}
+\addtolength{\columnsep}{2pt}
+
+\addtolength{\textheight}{5.5cm}
+\addtolength{\topmargin}{-26mm}
+\pagestyle{empty}
+
+%%
+%% Sheet setup
+%% 
+\newcommand{\coursename}{Computer Networks}
+\newcommand{\courseno}{CO20-320301}
+ 
+\newcommand{\sheettitle}{Problem Sheet}
+\newcommand{\mytitle}{}
+\newcommand{\mytoday}{February 22, 2019}
+
+% Current Assignment number
+\newcounter{assignmentno}
+\setcounter{assignmentno}{1}
+
+% Current Problem number, should always start at 1
+\newcounter{problemno}
+\setcounter{problemno}{1}
+
+%%
+%% problem and bonus environment
+%%
+\newcounter{probcalc}
+\newcommand{\problem}[2]{
+  \pagebreak[2]
+  \setcounter{probcalc}{#2}
+  ~\\
+  {\large \textbf{Problem \arabic{assignmentno}.\arabic{problemno}} \hspace{0.2cm}\textit{#1}} \refstepcounter{problemno}\vspace{2pt}\\}
+
+\newcommand{\bonus}[2]{
+  \pagebreak[2]
+  \setcounter{probcalc}{#2}
+  ~\\
+  {\large \textbf{Bonus Problem \textcolor{blue}{\arabic{assignmentno}}.\textcolor{blue}{\arabic{problemno}}} \hspace{0.2cm}\textit{#1}} \refstepcounter{problemno}\vspace{2pt}\\}
+
+%% some counters  
+\newcommand{\assignment}{\arabic{assignmentno}}
+
+%% solution  
+\newcommand{\solution}{\pagebreak[2]{\bf Solution:}\\}
+
+%% Hyperref Setup
+\hypersetup{pdftitle={Homework \assignment},
+  pdfsubject={\coursename},
+  pdfauthor={},
+  pdfcreator={},
+  pdfkeywords={Computer Networks},
+  %  pdfpagemode={FullScreen},
+  %colorlinks=true,
+  %bookmarks=true,
+  %hyperindex=true,
+  bookmarksopen=false,
+  bookmarksnumbered=true,
+  breaklinks=true,
+  %urlcolor=darkblue
+  urlbordercolor={0 0 0.7}
+}
+
+\begin{document}
+\coursename \hfill Course: \courseno\\
+Jacobs University Bremen \hfill \mytoday\\
+Dushan Terzikj\hfill
+\vspace*{0.3cm}\\
+\begin{center}
+{\Large \sheettitle{} \assignment\\}
+\end{center}
+
+\problem{}{0}
+\solution
+\begin{enumerate}[label=(\alph*)]
+    \item \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{Host}&\textbf{Minimum time (ms)}&\textbf{Average time (ms)}  \\ \hline
+        amazon.com&107.583&112.495  \\ \hline
+        www.amazon.com&8.95&13.893  \\ \hline
+        www.jacobs-university.de&13.964&16.437  \\ \hline
+        moodle.jacobs-university.de&1.533&3.696  \\ \hline
+    \end{tabular}\\ \\
+    One interesting observation I made is that \textit{www.amazon.com} takes a lot less time for a round trip than just \textit{amazon.com}. Once I realized that, I noticed that the ubuntu terminal displays \textit{amazon.com} domain statistics for \textit{amazon.com} and displays \textit{d3ag4hukkh62yn.cloudfront.net} statistics for \textit{www.amazon.com}.\\ \\
+    The measurements were taken at around 10PM, Feb 21, using Ubuntu 18.04 terminal, over eduroam Wi-Fi.
+    \item \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{Host}&\textbf{AS hops}&\textbf{Total hops in AS's}  \\ \hline
+        amazon.com&AS680 x 3, AS1299 x 6, AS16509 x 2&11  \\ \hline
+        www.amazon.com&AS680 x 3, AS16509 x 1&4  \\ \hline
+        www.jacobs-university.de&AS680 x 3, AS24940 x 3&6  \\ \hline
+        moodle.jacobs-university.de&AS680 x 1&1  \\ \hline
+    \end{tabular}\\ \\
+    No matter which host I traced, AS680 was visited. This Autonomous System belongs to the German Research Network. Keep in mind the the \textbf{Total hops in AS's} column shows the total of the known AS's, not counting the unknown AS's \textit{(AS??? ones)}. Including those there are 27, 14, 9, 2 hops in total respectively with the above hosts.\\ \\
+    The measurements were taken at around 10PM, Feb 21, using Ubuntu 18.04 terminal, over eduroam Wi-Fi.
+    
+\end{enumerate}
+
+\problem{}{0}
+\solution
+\begin{enumerate}[label=(\alph*)]
+    \item \begin{itemize}
+    \item AS680 $\rightarrow$ This AS is owned by German Research Network and has registry \textbf{RIPE}.
+    \item AS1299 $\rightarrow$ This AS is owned by TELIANET - Telia Company AB and has registry of \textbf{RIPE}.
+    \item AS16509 $\rightarrow$ This AS is owned by Amazon.com Inc. USA and has registry of \textbf{ARIN}.
+    \item AS24940 $\rightarrow$ This AS is owned by HETZNER and has registry of \textbf{RIPE}.
+\end{itemize}
+\item The prefix is used by IUB (International University Bremen), also with a registry of RIPE. The prefix is not globally announced. The globally announced prefix is 2001:638::/29.
+\end{enumerate}
+
+\problem{}{0}
+\solution
+\begin{enumerate}[label=(\alph*)]
+    \item The bandwidth did not exceed 10Mbits/sec and the total transfer was approximately correct, so the results do match my expectations.
+    \item The average rtt of ping signals when no data measurement is done from h1 is $0.099ms$, while data measurement is performed, the average rtt is $15.119ms$. \textit{iperf} command usually tries to consume as much of the bandwidth as it can deliver. This causes transmission delays when signals are sent via ping.
+\end{enumerate}
+
+\problem{}{0}
+\solution
+\begin{enumerate}[label=(\alph*)]
+    \item Considering that during execution of \textit{iperf} from h1 to h2 and then pinging both h3 to h4 and h4 to h3, the average rtt is 0.447ms. When there is no \textit{iperf} executing, the average rtt is 0.539. This means that the average rtt when there is \textit{iperf} is less than when there is no \textit{iperf} which does not make sense, therefore we can say that the communication between h3 and h4 is not impacted by h1 and h2.
+    \item According to the data, they do not affect each other. In other words, the bandwidth for both is around 9.5Mbits/sec and the total amount transferred is around 68.6Mbytes.
+\end{enumerate}
+
+\problem{}{0}
+\solution
+\begin{enumerate}
+    \item The way the network is set is that they make a star structure connected to a network with centralized switches. Based on the experiment I ran, it looks like when the data is going to the opposite ends it takes advantage of the full capacity of the link connecting the 2 hosts. This reaches a speed a little bit more than some bandwidths 10Mbits/s making the maximum speed around 10.5Mbits/sec.\\ \\
+    However, when the clients were on one side, we have a transmission delay. This is due to the clients waiting for free space to put their packages in the wire.
+    \item Due to the 5\% loss of data transfer between switches s2 and s3, the packages which are sent from h3 and h6 tend to repeat and that is why the bandwidth is slowed down to approximately 7.6Mbits/sec. The communication between h1 and h4 is as it is, bandwidth of approximately 9.5Mbits/sec. 
+\end{enumerate}
+
+\end{document}
