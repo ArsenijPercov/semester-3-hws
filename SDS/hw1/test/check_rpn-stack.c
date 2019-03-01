@@ -22,7 +22,7 @@ Author: Dushan Terzikj
 */
 typedef struct _rpn_stack {
    void *data;
-   struct _rpn_stack *prev;
+   struct _rpn_stack *next;
 } rpn_stack_t;
 
 /* endregion */
@@ -36,33 +36,43 @@ typedef struct _rpn_stack {
 START_TEST(test_new_stack)
 {
    fprintf(stderr, "Running test_new_stack...\n");
-   rpn_stack_t *s = rpn_stack_new();
+   rpn_stack_t *s;
+   s = rpn_stack_new();
    ck_assert_ptr_ne(s, NULL);
-   fprintf(stderr, "Done: test_new_stack\n");
+   fprintf(stderr, "Done\n----------------------\n");
 }
 END_TEST
 
 /**
- * \brief   Test whether the push function works. Create a copy pointer
- *          to the same stack and just keep track whether the data added
- *          pointer is the same as the data pointer.
+ * \brief   Test whether the push function works. Push an element into the stack,
+ *          take a peek and see if the elements are equal. 
 */
 START_TEST(test_push_stack)
 {
-   fprintf(stderr, "Running test_push_stack...\n");
-   rpn_stack_t *s = rpn_stack_new();
-   char tests[] = {'a', 'B', '1', '!', '3', '-'};
-   char *pt = tests;
-   rpn_stack_t *tmp; // another pointer to the same stack
-   size_t len = sizeof(tests)/sizeof(tests[0]);
+
+    printf("Running test_push_stack...\n");
+
+   rpn_stack_t *s;
+   s = rpn_stack_new();
+   ck_assert_int_eq(rpn_stack_empty(s), 1); // check if the stack is initially empty
+   int test[] = {1, 2, 3, 4, 5};
+   size_t len = sizeof(test)/sizeof(test[0]);
    size_t i;
+   void *tmp;
    for(i = 0; i < len; i++){
-      rpn_stack_push(s, pt);
-      tmp = s->prev;
-      ck_assert_ptr_eq(tmp->data, pt);
-      pt += sizeof(tests[0]);
+        rpn_stack_push(s, &test[i]);
+        tmp = rpn_stack_peek(s);
+        ck_assert_int_eq(test[i], *((int*)tmp));
    }
-   fprintf(stderr, "Done: test_push_stack\n");
+   ck_assert_int_eq(rpn_stack_empty(s), 0); // stack should not be empty now
+   
+   /* Check what happens with pop */
+   (void) rpn_stack_pop(s);
+   tmp = rpn_stack_peek(s);
+   ck_assert_int_eq(test[len-2], *((int*)tmp));
+
+    printf("Done\n----------------------------\n");
+
 }
 END_TEST
 
@@ -71,13 +81,23 @@ END_TEST
 */
 START_TEST(test_empty_stack)
 {
-   // TODO: Write test cases
-   fprintf(stderr, "Running test_empty_stack...\n");
-   rpn_stack_t *s = rpn_stack_new();
-   ck_assert_int_eq(rpn_stack_empty(s), 1);
-   rpn_stack_push(s, (void*)1);
-   ck_assert_int_eq(rpn_stack_empty(s), 0);
-   fprintf(stderr, "Done: test_empty_stack\n");
+
+    printf("Running: test_empty_stack...\n");
+
+    rpn_stack_t *s;
+    s = rpn_stack_new();
+    const int emp = 1;
+    int tmp = 5;
+    ck_assert_int_eq(rpn_stack_empty(s), emp);
+    rpn_stack_push(s, &tmp);
+    rpn_stack_push(s, &tmp);
+    ck_assert_int_eq(rpn_stack_empty(s), !emp);
+    (void) rpn_stack_pop(s);
+    ck_assert_int_eq(rpn_stack_empty(s), !emp);
+    (void) rpn_stack_pop(s);
+    ck_assert_int_eq(rpn_stack_empty(s), emp);
+
+    printf("Done\n----------------------------------\n");
 }
 END_TEST
 
@@ -87,22 +107,26 @@ END_TEST
 */
 START_TEST(test_peek_stack)
 {
-   fprintf(stderr, "Running: test_peek_stack...\n");
+    printf("Running test_peek_stack...\n");
 
-   rpn_stack_t *s = rpn_stack_new();
-   ck_assert_ptr_eq(rpn_stack_peek(s), NULL);
-
-   int tests[] = {1, 2, 3, 4, 5};
-   int *pt = tests;
-   size_t len = sizeof(tests)/sizeof(tests[0]);
+   rpn_stack_t *s;
+   s = rpn_stack_new();
+   int test[] = {1, 2, 3, 4, 5};
+   size_t len = sizeof(test)/sizeof(test[0]);
    size_t i;
+   void *tmp;
    for(i = 0; i < len; i++){
-      rpn_stack_push(s, pt);
-      ck_assert_ptr_eq(rpn_stack_peek(s), pt);
-      pt += sizeof(tests[0]);
+        rpn_stack_push(s, &test[i]);
+        tmp = rpn_stack_peek(s);
+        ck_assert_int_eq(test[i], *((int*)tmp));
    }
+   
+   /* Check what happens with pop */
+   (void) rpn_stack_pop(s);
+   tmp = rpn_stack_peek(s);
+   ck_assert_int_eq(test[len-2], *((int*)tmp));
 
-   fprintf(stderr, "Done: test_peek_stack.\n");
+    printf("Done\n----------------------------\n");
 }
 END_TEST
 
@@ -112,24 +136,26 @@ END_TEST
 */
 START_TEST(test_pop_stack)
 {
-   fprintf(stderr, "Running test_pop_stack...\n");
-   rpn_stack_t *s = rpn_stack_new();
-   char tests[] = {'a', 'B', '1', '!', '3', '-'};
-   char *pt = tests;
-   size_t len = sizeof(tests)/sizeof(tests[0]);
-   size_t i;
-   void *ret_val;
-   for(i = 0; i < len; i++){
-      rpn_stack_push(s, pt);
-      pt += sizeof(tests[0]);
-   }
-   pt -= sizeof(tests[0]);
-   for(int i = 0; i < len; i++){
-      ret_val = rpn_stack_pop(s);
-      ck_assert_ptr_eq(ret_val, pt);
-      pt -= sizeof(tests[0]);
-   }
-   fprintf(stderr, "Done: test_pop_stack\n");
+    printf("Running test_pop_stack...\n");
+
+    rpn_stack_t *s;
+    s = rpn_stack_new();
+    ck_assert_int_eq(rpn_stack_empty(s), 1); // check if the stack is initially empty
+    int test[] = {1, 2, 3, 4, 5};
+    size_t len = sizeof(test)/sizeof(test[0]);
+    int i;
+    void *tmp;
+    for(i = 0; i < (int) len; i++){
+        rpn_stack_push(s, &test[i]);
+    }
+    ck_assert_int_eq(rpn_stack_empty(s), 0); // stack should not be empty now
+
+    for(i = len-1; i >= 0; i--){
+        tmp = rpn_stack_pop(s);
+        ck_assert_int_eq(test[i], *((int*)tmp));
+    }
+
+    printf("Done\n----------------------------\n");
 }
 END_TEST
 
@@ -140,19 +166,21 @@ END_TEST
 */
 START_TEST(test_del_stack)
 {
-   fprintf(stderr, "Running test_del_stack...\n");
 
-   rpn_stack_t *s1 = rpn_stack_new();
-   rpn_stack_del(s1);
-   ck_assert_int_eq(rpn_stack_empty(s1), 1);
+    printf("Running: test_del_stack...\n");
 
-   rpn_stack_t *s2 = rpn_stack_new();
-   rpn_stack_push(s2, (void*)1);
-   rpn_stack_push(s2, (void*)1);
-   rpn_stack_del(s2);
-   ck_assert_int_eq(rpn_stack_empty(s2), 1);
+    rpn_stack_t *s;
+    const int emp = 1;
+    int tmp = 5;
+    s = rpn_stack_new();
+    ck_assert_int_eq(rpn_stack_empty(s), emp);
+    rpn_stack_push(s, &tmp);
+    rpn_stack_push(s, &tmp);
+    ck_assert_int_eq(rpn_stack_empty(s), !emp);
+    rpn_stack_del(s);
+    ck_assert_int_eq(rpn_stack_empty(s), emp);
 
-   fprintf(stderr, "Done: test_del_stack\n");
+    printf("Done\n----------------------------\n");
 }
 END_TEST
 

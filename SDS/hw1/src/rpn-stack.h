@@ -73,4 +73,6 @@ rpn_stack_empty(rpn_stack_t *s);
 void
 rpn_stack_del(rpn_stack_t *s);
 
+void rpn_print(rpn_stack_t *s);
+
 #endif

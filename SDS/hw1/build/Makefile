@@ -135,6 +135,19 @@ rpn-stack/fast:
 .PHONY : rpn-stack/fast
 
 #=============================================================================
+# Target rules for targets named rpn
+
+# Build rule for target.
+rpn: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 rpn
+.PHONY : rpn
+
+# fast build rule for target.
+rpn/fast:
+	$(MAKE) -f src/CMakeFiles/rpn.dir/build.make src/CMakeFiles/rpn.dir/build
+.PHONY : rpn/fast
+
+#=============================================================================
 # Target rules for targets named check_rpn-stack
 
 # Build rule for target.
@@ -144,8 +157,21 @@ check_rpn-stack: cmake_check_build_system
 
 # fast build rule for target.
 check_rpn-stack/fast:
-	$(MAKE) -f tests/CMakeFiles/check_rpn-stack.dir/build.make tests/CMakeFiles/check_rpn-stack.dir/build
+	$(MAKE) -f test/CMakeFiles/check_rpn-stack.dir/build.make test/CMakeFiles/check_rpn-stack.dir/build
 .PHONY : check_rpn-stack/fast
+
+#=============================================================================
+# Target rules for targets named check_rpn
+
+# Build rule for target.
+check_rpn: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 check_rpn
+.PHONY : check_rpn
+
+# fast build rule for target.
+check_rpn/fast:
+	$(MAKE) -f test/CMakeFiles/check_rpn.dir/build.make test/CMakeFiles/check_rpn.dir/build
+.PHONY : check_rpn/fast
 
 # Help Target
 help:
@@ -157,7 +183,9 @@ help:
 	@echo "... test"
 	@echo "... edit_cache"
 	@echo "... rpn-stack"
+	@echo "... rpn"
 	@echo "... check_rpn-stack"
+	@echo "... check_rpn"
 .PHONY : help
 
 

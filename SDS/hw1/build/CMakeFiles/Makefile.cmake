@@ -12,7 +12,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "CMakeFiles/3.10.2/CMakeSystem.cmake"
   "CMakeFiles/feature_tests.c"
   "../src/CMakeLists.txt"
-  "../tests/CMakeLists.txt"
+  "../test/CMakeLists.txt"
   "/usr/share/cmake-3.10/Modules/CMakeCCompiler.cmake.in"
   "/usr/share/cmake-3.10/Modules/CMakeCCompilerABI.c"
   "/usr/share/cmake-3.10/Modules/CMakeCInformation.cmake"
@@ -101,11 +101,13 @@ set(CMAKE_MAKEFILE_PRODUCTS
   "CMakeFiles/3.10.2/CMakeCCompiler.cmake"
   "CMakeFiles/CMakeDirectoryInformation.cmake"
   "src/CMakeFiles/CMakeDirectoryInformation.cmake"
-  "tests/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "test/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
   "src/CMakeFiles/rpn-stack.dir/DependInfo.cmake"
-  "tests/CMakeFiles/check_rpn-stack.dir/DependInfo.cmake"
+  "src/CMakeFiles/rpn.dir/DependInfo.cmake"
+  "test/CMakeFiles/check_rpn-stack.dir/DependInfo.cmake"
+  "test/CMakeFiles/check_rpn.dir/DependInfo.cmake"
   )

@@ -40,7 +40,7 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/home/terz99/Workspace/homeworks/SDS/hw1/build/src/cmake_install.cmake")
-  include("/home/terz99/Workspace/homeworks/SDS/hw1/build/tests/cmake_install.cmake")
+  include("/home/terz99/Workspace/homeworks/SDS/hw1/build/test/cmake_install.cmake")
 
 endif()
 

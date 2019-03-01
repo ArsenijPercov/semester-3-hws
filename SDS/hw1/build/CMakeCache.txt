@@ -176,6 +176,9 @@ rpn-stack_LIB_DEPENDS:STATIC=
 //Value Computed by CMake
 rpn-stack_SOURCE_DIR:STATIC=/home/terz99/Workspace/homeworks/SDS/hw1
 
+//Dependencies for target
+rpn_LIB_DEPENDS:STATIC=
+
 
 ########################
 # INTERNAL cache entries

@@ -1,0 +1,30 @@
+Important files:
+
+    - Stack implementation:             src/rpn-stack.c
+    - Calculator implementation:        src/rpn.c
+    - Stack tests:                      test/check_rpn-stack.c
+    - Calculator tests:                 test/check_rpn
+    - Test coverage for both problems:  gcccoverage.png.
+
+How to Compile
+
+Make sure you are in the project directory:
+
+$ mkdir build
+$ cd build
+$ cmake ..
+$ make
+
+If you want to run tests go in the build/test directory:
+
+$ ./check_rpn-stack
+$ ./check_rpn
+
+To generate test coverage, first do all the steps before!!! Then:
+
+$ lcov --capture --directory . --output-file cov.info
+$ genhtml cov.info -o html
+$ cd html
+
+Inside this folder you can find the test coverage .html file for both problems.
+

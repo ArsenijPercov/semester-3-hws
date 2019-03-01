@@ -1,1 +1,0 @@
-/usr/bin/cc   -rdynamic CMakeFiles/check_rpn-stack.dir/check_rpn-stack.o  -o check_rpn-stack ../src/librpn-stack.a -lcheck_pic -lrt -lm -lsubunit -lpthread 
