@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../src/rpn-stack.h
+
+/home/terz99/Workspace/homeworks/SDS/hw1/test/check_rpn-stack.c
+stdlib.h
+-
+stdio.h
+-
+check.h
+-
+rpn-stack.h
+/home/terz99/Workspace/homeworks/SDS/hw1/test/rpn-stack.h
+

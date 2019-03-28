@@ -1,0 +1,2 @@
+/usr/bin/ar qc librpn.a  CMakeFiles/rpn.dir/rpn.o
+/usr/bin/ranlib librpn.a

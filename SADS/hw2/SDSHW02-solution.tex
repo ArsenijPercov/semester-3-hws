@@ -1,0 +1,304 @@
+\documentclass[a4paper]{article}
+\usepackage[pdftex]{hyperref}
+\usepackage[latin1]{inputenc}
+\usepackage[english]{babel}
+\usepackage{a4wide}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{ifthen}
+\usepackage{listings}
+% move the asterisk at the right position
+\lstset{basicstyle=\ttfamily,tabsize=4,literate={*}{${}^*{}$}1}
+%\lstset{language=C,basicstyle=\ttfamily}
+\usepackage{moreverb}
+\usepackage{palatino}
+\usepackage{multicol}
+\usepackage{tabularx}
+\usepackage{comment}
+\usepackage{verbatim}
+\usepackage{color}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes.gates.logic.US,shapes.gates.logic.IEC,calc}
+
+\usepackage[left=2cm, right=2cm, top=4cm, bottom=4cm]{geometry}
+
+\usepackage{graphicx}
+
+%% pdflatex?
+\newif\ifpdf
+\ifx\pdfoutput\undefined
+\pdffalse % we are not running PDFLaTeX
+\else
+\pdfoutput=1 % we are running PDFLaTeX
+\pdftrue
+\fi
+\ifpdf
+\usepackage[pdftex]{graphicx}
+\else
+\usepackage{graphicx}
+\fi
+\ifpdf
+\DeclareGraphicsExtensions{.pdf, .jpg}
+\else
+\DeclareGraphicsExtensions{.eps, .jpg}
+\fi
+
+\parindent=0cm
+\parskip=0cm
+
+\setlength{\columnseprule}{0.4pt}
+\addtolength{\columnsep}{2pt}
+
+\addtolength{\textheight}{5.5cm}
+\addtolength{\topmargin}{-26mm}
+\pagestyle{empty}
+
+%%
+%% Sheet setup
+%% 
+\newcommand{\coursename}{Secure and Dependable Systems}
+\newcommand{\courseno}{CO21-320203}
+ 
+\newcommand{\sheettitle}{Problem Sheet}
+\newcommand{\mytitle}{}
+\newcommand{\mytoday}{March 14, 2019}
+
+% Current Assignment number
+\newcounter{assignmentno}
+\setcounter{assignmentno}{2}
+
+% Current Problem number, should always start at 1
+\newcounter{problemno}
+\setcounter{problemno}{1}
+
+%%
+%% problem and bonus environment
+%%
+\newcounter{probcalc}
+\newcommand{\problem}[2]{
+  \pagebreak[2]
+  \setcounter{probcalc}{#2}
+  ~\\
+  {\large \textbf{Problem \arabic{assignmentno}.\arabic{problemno}} \hspace{0.2cm}\textit{#1}} \refstepcounter{problemno}\vspace{2pt}\\}
+
+\newcommand{\bonus}[2]{
+  \pagebreak[2]
+  \setcounter{probcalc}{#2}
+  ~\\
+  {\large \textbf{Bonus Problem \textcolor{blue}{\arabic{assignmentno}}.\textcolor{blue}{\arabic{problemno}}} \hspace{0.2cm}\textit{#1}} \refstepcounter{problemno}\vspace{2pt}\\}
+
+%% some counters  
+\newcommand{\assignment}{\arabic{assignmentno}}
+
+\makeatletter
+\def\BState{\State\hskip-\ALG@thistlm}
+\makeatother
+
+%% solution  
+\newcommand{\solution}{\pagebreak[2]{\bf Solution:}\\}
+
+%% Hyperref Setup
+\hypersetup{pdftitle={Homework \assignment},
+  pdfsubject={\coursename},
+  pdfauthor={},
+  pdfcreator={},
+  pdfkeywords={Computer Networks},
+  %  pdfpagemode={FullScreen},
+  %colorlinks=true,
+  %bookmarks=true,
+  %hyperindex=true,
+  bookmarksopen=false,
+  bookmarksnumbered=true,
+  breaklinks=true,
+  %urlcolor=darkblue
+  urlbordercolor={0 0 0.7}
+}
+
+\begin{document}
+\coursename \hfill Course: \courseno\\
+Jacobs University Bremen \hfill \mytoday\\
+Dushan Terzikj\hfill
+\vspace*{0.3cm}\\
+\begin{center}
+{\Large \sheettitle{} \assignment\\}
+\end{center}
+
+\problem{}{0}
+\solution\\
+\begin{enumerate}[label=(\alph*)]
+    \item 
+    $\{X=x\wedge N=n\wedge N\ge 0\}\leftarrow$\textbf{Precondition}
+    \begin{algorithmic}
+    \State $K:=N$
+    \State $P:=X$
+    \State $Y:=1$
+    \While{$K>0$}
+    \If{$K\%2=0$}
+    \State $P:=P\cdot P$
+    \State $K:=K/2$
+    \Else
+    \State $Y:=Y\cdot P$
+    \State $K:=K-1$
+    \EndIf{\textbf{fi}}
+    \EndWhile{\textbf{od}}
+    \end{algorithmic}
+    $\{Y=exp(x,n)\}\leftarrow$\textbf{Postcondition}\\
+    
+    \item 
+    $\{X=x\wedge N=n\wedge N\ge 0\}\leftarrow$\textbf{Precondition}
+    \begin{algorithmic}
+    \State $K:=N$
+    \State $P:=X$
+    \State $Y:=1$
+    \State $\{K=N\wedge P=X\wedge Y=1\}\leftarrow$ \textbf{annotation \#1}
+    \While{$K>0$}
+    \State $\{Y\cdot exp(P,K)=exp(x,n)\}\leftarrow$ \textbf{annotation \#2 and loop invariant}
+    \If{$K\%2=0$}
+    \State $P:=P\cdot P$
+    \State $K:=K/2$
+    \Else
+    \State $Y:=Y\cdot P$
+    \State $K:=K-1$
+    \EndIf{\textbf{fi}}
+    \EndWhile{\textbf{od}}
+    \end{algorithmic}
+    $\{Y=exp(x,n)\}\leftarrow$\textbf{Postcondition}\\
+    
+    \item 
+    \begin{enumerate}[label=(\arabic*)]
+        \item From the assignments axioms in line 1, 2 and 3:
+        \begin{align*}
+            &\{X=x\wedge N=n\wedge N\ge 0\} K:=N; P:=X; Y:=1;\{K=N\wedge P=X\wedge Y=1\}\\
+            \Rightarrow &\{X=x\wedge N=n\wedge N\ge 0\} K:=N; P:=X;\{K=N\wedge P=X\wedge 1=1\}\\
+            \Rightarrow &\{X=x\wedge N=n\wedge N\ge 0\} K:=N\{K=N\wedge X=X\wedge 1=1\}\\
+            \Rightarrow &(X=x\wedge N=n\wedge N\ge 0)\rightarrow (K=K\wedge X=X\wedge 1=1)\\
+        \end{align*}
+        
+        \item From the while loop:
+        \begin{align*}
+            (K=N\wedge P=X\wedge Y=1)\rightarrow (Y\cdot exp(P,K)=exp(x,n))
+        \end{align*}
+        
+        \item From the while loop:
+        \begin{align*}
+            (Y\cdot exp(P,K)=exp(x,n)\wedge \neg(K>0))\rightarrow (Y=exp(x,n))
+        \end{align*}
+        
+        \item From the while loop (where $C_1=(P:=P\cdot P; K:=K/2;)$ and\\$C_2=(Y:=Y\cdot P; K:=K-1;)$):
+        \begin{align*}
+            \{Y\cdot exp(P,K)=exp(x,n)\wedge K>0\}\text{IF }K\%2=0\text{ THEN }C_1\text{ ELSE }C_2\text{ FI }\{Y\cdot exp(P,K)=exp(x,n)\}
+        \end{align*}
+        Taking the separate commands $C_1$ and $C_2$, we get 2 triplets (the first one is derived here, the second one is derived in (5)).
+        \begin{align*}
+            &\{Y\cdot exp(P,K)=exp(x,n)\wedge K>0\wedge K\%2=0\}P:=P\cdot P;K=K/2;\{Y\cdot exp(P,K)=exp(x,n)\}\\
+            \Rightarrow&\{Y\cdot exp(P,K)=exp(x,n)\wedge K>0\wedge K\%2=0\}P:=P\cdot P\{Y\cdot exp(P,K/2)=exp(x,n)\}\\
+            \Rightarrow&(Y\cdot exp(P,K)=exp(x,n)\wedge K>0\wedge K\%2=0)\rightarrow(Y\cdot exp(P\cdot P,K/2)=exp(x,n))\\
+        \end{align*}
+        
+        \item
+        \begin{align*}
+            &\{Y\cdot exp(P,K)=exp(x,n)\wedge K>0\wedge \neg(K\%2=0)\}Y:=Y\cdot P; K:=K-1;\{Y\cdot exp(P,K)=exp(x,n)\}\\
+            \Rightarrow&\{Y\cdot exp(P,K)=exp(x,n)\wedge K>0\wedge \neg(K\%2=0)\}Y:=Y\cdot P\{Y\cdot exp(P,K-1)=exp(x,n)\}\\
+            \Rightarrow&(Y\cdot exp(P,K)=exp(x,n)\wedge K>0\wedge \neg(K\%2=0))\rightarrow((Y\cdot P)\cdot exp(P,K-1)=exp(x,n))\\
+        \end{align*}
+    \end{enumerate}
+    
+    \item 
+    \begin{enumerate}[label=(\arabic*)]
+        \item This one is trivial. $(K=K\wedge X=X\wedge 1=1)$ is a tautology, therefore it holds.
+        \item Also trivial, but harder to see. Since $Y=1$ we can omit it in the calculations, because all calculations include multiplications and Y will not contribute much. We have that $K=N$ and $P=X$, where $N=n,X=x$. Then we can do the following:
+        \begin{align*}
+            &exp(P,K)=exp(x,n)\\
+            \Rightarrow&exp(X,N)=exp(x,n)\\
+            \Rightarrow&exp(x,n)=exp(x,n)\square
+        \end{align*}
+        \item Since $\neg (K>0)\Rightarrow K=0$. Why? Well:
+        \begin{enumerate}[label=(\roman*)]
+            \item if K is even then we divide it by 2.
+            \item if K is odd then we subtract 2 where we get an even number. Then if $K>2$ we do step (i).
+            \item If $K=2$, then $K:=K/2\Rightarrow K=1\Rightarrow K:=K-1\Rightarrow K=0$. This might seem like just one test case, but we can never get any lower than $K=0$.
+        \end{enumerate}
+        Since $K=0$, then $exp(P,K)=1$, which means $Y=exp(x,n)\square$.
+        \item We know that $K>0$ and $K$ is even. Let's denote $exp(P,K)=P^K$ for the sake of beautiful mathematical notation. Then we have $YP^K=x^n$ and $Y(P\cdot P)^{K/2}=x^n$, we can equalize these two equations:
+        \begin{align*}
+            &YP^K=Y(P\cdot P)^{K/2}\\
+            \Rightarrow&P^K=(P\cdot P)^{K/2}\\
+            \Rightarrow&P^K=(P^2)^{K/2}\\
+            \Rightarrow&P^K=P^{2\cdot K/2}\\
+            \Rightarrow&P^K=P^K\square\\
+        \end{align*}
+        \item This one is similar to (4), only K is odd:
+        \begin{align*}
+            &YP^K=(YP)P^{K-1}\\
+            \Rightarrow&P^K=P\cdot P^{K-1}\\
+            \Rightarrow&P^K=P^{K}\square\\
+        \end{align*}
+    \end{enumerate}
+    \newpage
+    \item
+    $\{X=x\wedge N=n\wedge N\ge 0\}\leftarrow$\textbf{Precondition}
+    \begin{algorithmic}
+    \State $K:=N$
+    \State $P:=X$
+    \State $Y:=1$
+    \State $\{K=N\wedge P=X\wedge Y=1\}$
+    \While{$K>0$}
+    \State $\{Y\cdot exp(P,K)=exp(x,n)\}$
+    \State [$K$] $\leftarrow$ \textbf{total correctness annotation}
+    \If{$K\%2=0$}
+    \State $P:=P\cdot P$
+    \State $K:=K/2$
+    \Else
+    \State $Y:=Y\cdot P$
+    \State $K:=K-1$
+    \EndIf{\textbf{fi}}
+    \EndWhile{\textbf{od}}
+    \end{algorithmic}
+    $\{Y=exp(x,n)\}\leftarrow$\textbf{Postcondition}\\
+    
+    \item Verification conditions (1), (2) and (3) stay the same. (4) and (5) change a bit or are not used anymore and are replaced by other VCs. Let us derive those:
+    \begin{enumerate}[label=(\arabic*)]
+        \item 
+        \begin{align*}
+            (Y\cdot exp(P,K)=exp(x,n)\wedge K>0)\rightarrow (K\ge 0)    
+        \end{align*}
+        
+        \item Now the generated one (or two):
+        \begin{align*}
+            \{Y\cdot exp(P,K)=exp(x,n)\wedge K>0\wedge K=n\}C\{Y\cdot exp(P,K)=exp(x,n)\wedge K<n\}
+        \end{align*}
+        Where $C$ is the IF/ELSE statement in our pseudocode. For the IF/ELSE VCs, this is going to be very similar to (c). The difference is that we have 2 new boolean implicants, namely $K=n$ and $K<n$. In this case the $n$ is not the same as the $n$ in the precondition, but I still decided to write it as $n$, because even if it's the same $n$ it will still work. In both ways, $n$ is an arbitrary non-negative integer variable.\\ \\
+        We have:
+        \begin{align*}
+            &\{Y\cdot exp(P,K)=exp(x,n)\wedge K>0\wedge K=n\wedge K\%2=0\}\\&P:=P\cdot P;K=K/2;\\&\{Y\cdot exp(P,K)=exp(x,n)\wedge K<n\}\\
+            \Rightarrow&\{Y\cdot exp(P,K)=exp(x,n)\wedge K>0\wedge K=n\wedge K\%2=0\}\\&P:=P\cdot P\\&\{Y\cdot exp(P,K/2)=exp(x,n)\wedge K/2<n\}\\
+            \Rightarrow&(Y\cdot exp(P,K)=exp(x,n)\wedge K>0\wedge K=n\wedge K\%2=0)\rightarrow(Y\cdot exp(P\cdot P,K/2)=exp(x,n)\wedge K/2<n)\\
+        \end{align*}
+        \item Analogously for the second part, we get:
+        \begin{align*}
+            \Rightarrow&(Y\cdot exp(P,K)=exp(x,n)\wedge K>0\wedge K=n\wedge \neg(K\%2=0))\\&\rightarrow((Y\cdot P)\cdot exp(P,K-1)=exp(x,n)\wedge K-1<n)\\
+        \end{align*}
+    \end{enumerate}
+    \item The proofs for (1), (2), and (3) from (d) are the same. We only need to prove the VCs from (f).
+    \begin{enumerate}[label=(\arabic*)]
+        \item Trivial: if $K>0$ then $K\ge 0$.
+        \item Again trivial: if $K=n$ then:
+        \begin{align*}
+            \frac{K}{2}&<n\\
+            K&<2n
+        \end{align*}
+        The other part is the same as (4) from (d).
+        \item Similarly for this. If $K=n$ then:
+        \begin{align*}
+            K-1&<n\\
+            K&<n+1
+        \end{align*}
+        The other part is the same as (5) from (d).
+    \end{enumerate}
+\end{enumerate}
+
+
+\end{document}

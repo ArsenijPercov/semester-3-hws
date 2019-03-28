@@ -1,0 +1,231 @@
+\documentclass[a4paper]{article}
+\usepackage[pdftex]{hyperref}
+\usepackage[latin1]{inputenc}
+\usepackage[english]{babel}
+\usepackage{a4wide}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{ifthen}
+\usepackage{listings}
+\usepackage{enumitem}
+% move the asterisk at the right position
+\lstset{basicstyle=\ttfamily,tabsize=4,literate={*}{${}^*{}$}1}
+%\lstset{language=C,basicstyle=\ttfamily}
+\usepackage{moreverb}
+\usepackage{palatino}
+\usepackage{multicol}
+\usepackage{tabularx}
+\usepackage{comment}
+\usepackage{verbatim}
+\usepackage{color}
+
+% Because of an error on line 41 I added this
+\usepackage{graphicx}
+
+% Used for drawing DFAs and NFAs
+\usepackage{tikz}
+\usetikzlibrary{automata, positioning}
+
+% Defined checkmark sign
+\def\checkmark{\tikz\fill[scale=0.4](0,.35) -- (.25,0) -- (1,.7) -- (.25,.15) -- cycle;}
+
+% Table coloring
+\usepackage{color, colortbl}
+\usepackage[first=0,last=9]{lcg}
+
+\DeclareFontEncoding{LS1}{}{}
+\DeclareFontSubstitution{LS1}{stix}{m}{n}
+\DeclareSymbolFont{symbolsstix}{LS1}{stixscr}{m}{n}
+\SetSymbolFont{symbolsstix}{bold}{LS1}{stixscr}{b}{n}
+\DeclareMathSymbol{\mathvisiblespace}{0}{symbolsstix}{"B6}
+
+% Tab
+\newcommand\tab[1][1.15cm]{\hspace*{#1}}
+
+%% pdflatex?
+\newif\ifpdf
+\ifx\pdfoutput\undefined
+\pdffalse % we are not running PDFLaTeX
+\else
+\pdfoutput=1 % we are running PDFLaTeX
+\pdftrue
+\fi
+%\ifpdf
+%\usepackage[pdftex]{graphicx}
+%\else
+%\usepackage{graphicx}
+%\fi
+\ifpdf
+\DeclareGraphicsExtensions{.pdf, .jpg}
+\else
+\DeclareGraphicsExtensions{.eps, .jpg}
+\fi
+
+\parindent=0cm
+\parskip=0cm
+
+\setlength{\columnseprule}{0.4pt}
+\addtolength{\columnsep}{2pt}
+
+\addtolength{\textheight}{5.5cm}
+\addtolength{\topmargin}{-26mm}
+\pagestyle{empty}
+
+%%
+%% Sheet setup
+%% 
+\newcommand{\coursename}{Computability and Complexity}
+\newcommand{\courseno}{CO21-320352}
+ 
+\newcommand{\sheettitle}{Homework}
+\newcommand{\mytitle}{}
+\newcommand{\mytoday}{March 26th, 2019}
+
+% Current Assignment number
+\newcounter{assignmentno}
+\setcounter{assignmentno}{6}
+
+% Current Problem number, should always start at 1
+\newcounter{problemno}
+\setcounter{problemno}{1}
+
+%%
+%% problem and bonus environment
+%%
+\newcounter{probcalc}
+\newcommand{\exercise}[2]{
+  \pagebreak[2]
+  \setcounter{probcalc}{#2}
+  ~\\
+  {\large \textbf{Exercise \arabic{problemno}} \hspace{0.2cm}\textit{#1}} \refstepcounter{problemno}\vspace{2pt}\\}
+
+\newcommand{\bonus}[2]{
+  \pagebreak[2]
+  \setcounter{probcalc}{#2}
+  ~\\
+  {\large \textbf{Bonus Problem \textcolor{blue}{\arabic{assignmentno}}.\textcolor{blue}{\arabic{problemno}}} \hspace{0.2cm}\textit{#1}} \refstepcounter{problemno}\vspace{2pt}\\}
+
+%% some counters  
+\newcommand{\assignment}{\arabic{assignmentno}}
+
+%% solution  
+\newcommand{\solution}{\pagebreak[2]{\bf Solution:}\\}
+
+%% Hyperref Setup
+\hypersetup{pdftitle={Homework \assignment},
+  pdfsubject={\coursename},
+  pdfauthor={},
+  pdfcreator={},
+  pdfkeywords={Computability and Complexity},
+  %  pdfpagemode={FullScreen},
+  %colorlinks=true,
+  %bookmarks=true,
+  %hyperindex=true,
+  bookmarksopen=false,
+  bookmarksnumbered=true,
+  breaklinks=true,
+  %urlcolor=darkblue
+  urlbordercolor={0 0 0.7}
+}
+
+\begin{document}
+\coursename \hfill Course: \courseno\\
+Jacobs University Bremen \hfill \mytoday\\
+Dragi Kamov and Dushan Terzikj\hfill
+\vspace*{0.3cm}\\
+\begin{center}
+{\Large \sheettitle{} \assignment\\}
+\end{center}
+
+\exercise{}{0}
+\solution
+I will be using the axioms and inference rules from section 7.1 on page 48 in the lecture notes.\\ \\
+\textbf{call-by-value:}
+\begin{itemize}
+    \item
+    \begin{align*}
+        K(KI(KI))y&\rightarrow KIy\text{ (A3)}\\
+        KIy&\rightarrow I\text{ (A3)}\\
+        K(KI(KI))y&\rightarrow I\text{ (I3)}\\
+    \end{align*}
+    \item
+    \begin{align*}
+        K(KI(KIy))y&\rightarrow K(KII)y\text{ (A3)}\\
+        K(KII)y&\rightarrow KIy\text{ (A3)}\\
+        KIy&\rightarrow I\text{ (A3)}\\
+        K(KI(KIy))y&\rightarrow I\text{ (A3)}\\
+    \end{align*}
+    \item
+    \begin{align*}
+        SK(KK(KIy))y&\rightarrow SK(KKI)y\text{ (A3)}\\
+        SK(KKI)y&\rightarrow SKKy\text{ (A3)}\\
+        SKKy&\rightarrow SK\text{ (A3)}\\
+    \end{align*}
+    This one is a dead end.\\
+\end{itemize}
+\textbf{call-by-name}:
+\begin{itemize}
+    \item
+    \begin{align*}
+        K(KI(KI))y&\rightarrow KI(KI)\text{ (A3)}\\
+        KI(KI)&\rightarrow I\text{ (A3)}\\
+        K(KI(KI))y&\rightarrow I\text{ (I3)}\\
+    \end{align*}
+    \item
+    \begin{align*}
+        K(KI(KIy))y&\rightarrow KI(KIy)\text{ (A3)}\\
+        KI(KIy)&\rightarrow I\text{ (A3)}\\
+        K(KI(KIy))y&\rightarrow I\text{ (I3)}\\
+    \end{align*}
+    \item
+    \begin{align*}
+        SK(KK(KIy))y&\rightarrow Ky((KK(KIy))y)\text{ (A2)}\\
+        Ky((KK(KIy))y)&\rightarrow y\text{ (A3)}\\
+        SK(KK(KIy))y&\rightarrow y\text{ (I3)}\\
+    \end{align*}
+\end{itemize}
+
+\newpage
+
+\exercise{}{0}
+\solution
+\begin{enumerate}[label=(\alph*)]
+    \item $Cxy=y$, using \textbf{call-by-name} evaluation:
+    \begin{align*}
+        SKxy&\rightarrow Ky(xy)\text{ (A2)}\\
+        Ky(xy)&\rightarrow y\text{ (A3)}\\
+        \Rightarrow C&=SK\\
+    \end{align*}
+    \item $Cxyz=y$ using \textbf{call-by-name} evaluation:
+    \begin{align*}
+        KKxyz&\rightarrow Kyz\text{ (A3)}\\
+        Kyz&\rightarrow y\text{ (A3)}\\
+        \Rightarrow C&=KK\\
+    \end{align*}
+    \item $Cxyz=x$ using \textbf{call-by-name} evaluation:
+    \begin{align*}
+        S(KK)Kxyz&\rightarrow KKx(Kx)yz\text{ (A2)}\\
+        KKx(Kx)yz&\rightarrow K(Kx)yz\text{ (A3)}\\
+        K(Kx)yz&\rightarrow Kxz\text{ (A3)}\\
+        Kxz&\rightarrow x\text{ (A3)}\\
+        \Rightarrow C&=S(KK)K\\
+    \end{align*}
+\end{enumerate}
+
+\exercise{}{0}
+\solution
+The following solution was done with the help of Ana Ambroladze.\\\\
+$ t_2[x,y] = y $ \\
+$ t_2[x,y] = t_1[x]y = y $ \\
+We can see that it is not composite so: \\
+$ \implies t_1[x] = I $ \\
+$ t_1[x] = t_0[$  $]x $ \\
+And as that is not composite: \\
+$ \implies t_0[$  $] = KI $ \\\\
+$ t_2[x,y] = t_1[x]y = t_0[$  $]xy = KIxy = y $ \\
+$ \implies C = KI $
+
+
+\end{document}

@@ -1,0 +1,12 @@
+ 1?: [LOCALHOST]                        0.016ms pmtu 1500
+ 1:  2001:638:709:a::f                                     0.045ms 
+ 1:  2001:638:709:a::f                                     0.035ms 
+ 2:  2001:638:709:f::2                                     0.027ms 
+ 3:  2001:638:709:b::1                                     0.031ms reached
+     Resume: pmtu 1500 hops 3 back 3 
+ 1?: [LOCALHOST]                        0.053ms pmtu 1500
+ 1:  2001:638:709:b::e                                     0.169ms 
+ 1:  2001:638:709:b::e                                     0.165ms 
+ 2:  2001:638:709:e::1                                     0.310ms 
+ 3:  2001:638:709:a::1                                     0.199ms reached
+     Resume: pmtu 1500 hops 3 back 3 

@@ -1,0 +1,187 @@
+\documentclass[a4paper]{article}
+\usepackage[pdftex]{hyperref}
+\usepackage[latin1]{inputenc}
+\usepackage[english]{babel}
+\usepackage{a4wide}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{ifthen}
+\usepackage{listings}
+% move the asterisk at the right position
+\lstset{basicstyle=\ttfamily,tabsize=4,literate={*}{${}^*{}$}1}
+%\lstset{language=C,basicstyle=\ttfamily}
+\usepackage{moreverb}
+\usepackage{palatino}
+\usepackage{multicol}
+\usepackage{tabularx}
+\usepackage{comment}
+\usepackage{verbatim}
+\usepackage{color}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes.gates.logic.US,shapes.gates.logic.IEC,calc}
+
+\usepackage[left=2cm, right=2cm, top=4cm, bottom=4cm]{geometry}
+
+\usepackage{graphicx}
+
+%% pdflatex?
+\newif\ifpdf
+\ifx\pdfoutput\undefined
+\pdffalse % we are not running PDFLaTeX
+\else
+\pdfoutput=1 % we are running PDFLaTeX
+\pdftrue
+\fi
+\ifpdf
+\usepackage[pdftex]{graphicx}
+\else
+\usepackage{graphicx}
+\fi
+\ifpdf
+\DeclareGraphicsExtensions{.pdf, .jpg}
+\else
+\DeclareGraphicsExtensions{.eps, .jpg}
+\fi
+
+\parindent=0cm
+\parskip=0cm
+
+\setlength{\columnseprule}{0.4pt}
+\addtolength{\columnsep}{2pt}
+
+\addtolength{\textheight}{5.5cm}
+\addtolength{\topmargin}{-26mm}
+\pagestyle{empty}
+
+%%
+%% Sheet setup
+%% 
+\newcommand{\coursename}{Secure and Dependable Systems}
+\newcommand{\courseno}{CO21-320203}
+ 
+\newcommand{\sheettitle}{Problem Sheet}
+\newcommand{\mytitle}{}
+\newcommand{\mytoday}{March 28, 2019}
+
+% Current Assignment number
+\newcounter{assignmentno}
+\setcounter{assignmentno}{3}
+
+% Current Problem number, should always start at 1
+\newcounter{problemno}
+\setcounter{problemno}{1}
+
+%%
+%% problem and bonus environment
+%%
+\newcounter{probcalc}
+\newcommand{\problem}[2]{
+  \pagebreak[2]
+  \setcounter{probcalc}{#2}
+  ~\\
+  {\large \textbf{Problem \arabic{assignmentno}.\arabic{problemno}} \hspace{0.2cm}\textit{#1}} \refstepcounter{problemno}\vspace{2pt}\\}
+
+\newcommand{\bonus}[2]{
+  \pagebreak[2]
+  \setcounter{probcalc}{#2}
+  ~\\
+  {\large \textbf{Bonus Problem \textcolor{blue}{\arabic{assignmentno}}.\textcolor{blue}{\arabic{problemno}}} \hspace{0.2cm}\textit{#1}} \refstepcounter{problemno}\vspace{2pt}\\}
+
+%% some counters  
+\newcommand{\assignment}{\arabic{assignmentno}}
+
+\makeatletter
+\def\BState{\State\hskip-\ALG@thistlm}
+\makeatother
+
+%% solution  
+\newcommand{\solution}{\pagebreak[2]{\bf Solution:}\\}
+
+%% Hyperref Setup
+\hypersetup{pdftitle={Homework \assignment},
+  pdfsubject={\coursename},
+  pdfauthor={},
+  pdfcreator={},
+  pdfkeywords={Computer Networks},
+  %  pdfpagemode={FullScreen},
+  %colorlinks=true,
+  %bookmarks=true,
+  %hyperindex=true,
+  bookmarksopen=false,
+  bookmarksnumbered=true,
+  breaklinks=true,
+  %urlcolor=darkblue
+  urlbordercolor={0 0 0.7}
+}
+
+\begin{document}
+\coursename \hfill Course: \courseno\\
+Jacobs University Bremen \hfill \mytoday\\
+Dushan Terzikj\hfill
+\vspace*{0.3cm}\\
+\begin{center}
+{\Large \sheettitle{} \assignment\\}
+\end{center}
+
+\problem{}{0}
+\solution
+The question is a little bit ambiguous. In the main problem statement it says $e\prec f$, but it is not clear whether that is a statement or is it just used to explain the relation $\prec$. I would assume the second one.
+\begin{enumerate}[label=(\alph*)]
+    \item 
+    \begin{enumerate}[label=(\roman*)]
+        \item \textbf{False}. If $\Theta_L (e)<\Theta_L (f)$ holds, it does not necessarily mean that $e$ occured before $f$. However, $e\prec f$ implies that $\Theta_L (e)<\Theta_L (f)$, but that is not our case.
+        \item \textbf{False}. Similar reasoning to (i). The true statement would be $f\prec e\implies\Theta_L(f)<\Theta_L(e)$.
+    \end{enumerate}
+    \item
+    \begin{enumerate}[label=(\roman*)]
+    \item It's \textbf{true}, because $e\prec f\iff\Theta_V (e)<\Theta_V (f)$, which means $(e\prec f\implies\Theta_V (e)<\Theta_V (f))\wedge (\Theta_V (e)<\Theta_V (f)\implies e\prec f)$. We know that $\Theta_V (e)<\Theta_V (f)$ holds, so $e\prec f$ must be true.
+    \item \textbf{False}. It would have been true if $\Theta_V(f)<\Theta_V(e)$. The reasoning for this is the same as (i).
+    \end{enumerate}
+    \item If $e$ and $f$ are concurrent, neither of the following statements would hold:
+    \begin{itemize}
+        \item $\Theta_V(e)<\Theta_V(f)$
+        \item $\Theta_V(f)<\Theta_V(e)$
+    \end{itemize}
+\end{enumerate}
+
+\problem{}{0}
+\solution
+\begin{enumerate}[label=(\alph*)]
+    \item \includegraphics[width=140mm]{SADS1.png}
+    \item \includegraphics[width=140mm]{SADS2.png}
+    \item $C_1$ is consistent while $C_2$ is not. The reason $C_1$ is consistent is that it fulfills the property of a cut being consistent, i.e., if $a\in C_1$ and $a\prec b$ then $b\prec C_1$. $C_2$ does not show that. For example, if you take $l$ and $s$, $l\in C_2$, while $s\notin C_2$, even though $s\prec l$.
+\end{enumerate}
+
+\problem{}{0}
+\solution
+\begin{algorithm}
+\caption{Casual reliable broadcast}\label{euclid}
+\begin{algorithmic}
+\State
+\Procedure{INITIALIZE}{}
+\State $rcntDivs:=\perp$ // sequence of messages that were $DELIVER$-ed since the previous $BROADCAST$
+\EndProcedure
+\State
+\Procedure{BROADCAST}{C,m}
+\State $BROADCAST(F, rcntDivs.append(m))$ // append $m$ to messages
+\State $rcntDivs:=\perp$
+\EndProcedure
+\State
+\State \textbf{upon $DELIVER(m_1, m_2,...m_n)$ do}
+\For{$i:=1...n$}
+\If{has not previously executed $DELIVER(C,m_i)$}
+\State $DELIVER(C, m_i)$
+\State $rcntDivs.append(m_i)$
+\EndIf
+\EndFor
+\State
+\end{algorithmic}
+\end{algorithm}
+Reference for this problem:
+\href{http://www.sc.ehu.es/acwlaalm/sdi/fault-tolerant-broadcasts.pdf}{http://www.sc.ehu.es/acwlaalm/sdi/fault-tolerant-broadcasts.pdf}.\\ \\
+\textbf{See next page!}
+
+\end{document}
