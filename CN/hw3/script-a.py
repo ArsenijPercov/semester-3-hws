@@ -74,15 +74,14 @@ if __name__ == '__main__':
 	r2.cmd("ip -6 addr add 2001:638:709:b::f/64 dev r2-eth1")
 
 	# configure IPv6 forwarding table entries
-	# h1 to r1 and back
+	# h1 to r1
 	h1.cmd("ip -6 route add 2001:638:709::/48 via 2001:638:709:a::f dev h1-eth0")
-	r1.cmd("ip -6 route add 2001:638:709:a::f/64 dev r1-eth0")
-	r1.cmd("ip -6 route add 2001:638:709:f::1/64 dev r1-eth1")
+	# r1.cmd("ip -6 route add 2001:638:709:a::f/64 dev r1-eth0")
+	# r1.cmd("ip -6 route add 2001:638:709:f::1/64 dev r1-eth1")
 	r1.cmd("ip -6 route add 2001:638:709:b::/64 via 2001:638:709:f::2 dev r1-eth1")
 
-	# r1 to r2 and back
-	r2.cmd("ip -6 route add 2001:638:709:f::2/64 dev r2-eth0")
-	r2.cmd("ip -6 route add 2001:638:709:b::f/64 dev r2-eth1")
+	# r2.cmd("ip -6 route add 2001:638:709:f::2/64 dev r2-eth0")
+	# r2.cmd("ip -6 route add 2001:638:709:b::f/64 dev r2-eth1")
 	r2.cmd("ip -6 route add 2001:638:709:a::/64 via 2001:638:709:f::1 dev r2-eth0")
 
 	# r2 to h2 and back

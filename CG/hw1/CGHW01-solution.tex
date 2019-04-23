@@ -1,0 +1,349 @@
+\documentclass[a4paper]{article}
+\usepackage[pdftex]{hyperref}
+\usepackage[latin1]{inputenc}
+\usepackage[english]{babel}
+\usepackage{a4wide}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{ifthen}
+\usepackage{listings}
+% move the asterisk at the right position
+\lstset{basicstyle=\ttfamily,tabsize=4,literate={*}{${}^*{}$}1}
+%\lstset{language=C,basicstyle=\ttfamily}
+\usepackage{moreverb}
+\usepackage{palatino}
+\usepackage{multicol}
+\usepackage{tabularx}
+\usepackage{comment}
+\usepackage{verbatim}
+\usepackage{color}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes.gates.logic.US,shapes.gates.logic.IEC,calc}
+
+\usepackage[left=3cm, right=3cm, top=4cm, bottom=4cm]{geometry}
+
+\usepackage{graphicx}
+
+%% pdflatex?
+\newif\ifpdf
+\ifx\pdfoutput\undefined
+\pdffalse % we are not running PDFLaTeX
+\else
+\pdfoutput=1 % we are running PDFLaTeX
+\pdftrue
+\fi
+\ifpdf
+\usepackage[pdftex]{graphicx}
+\else
+\usepackage{graphicx}
+\fi
+\ifpdf
+\DeclareGraphicsExtensions{.pdf, .jpg}
+\else
+\DeclareGraphicsExtensions{.eps, .jpg}
+\fi
+
+\parindent=0cm
+\parskip=0cm
+
+\setlength{\columnseprule}{0.4pt}
+\addtolength{\columnsep}{2pt}
+
+\addtolength{\textheight}{5.5cm}
+\addtolength{\topmargin}{-26mm}
+\pagestyle{empty}
+
+%%
+%% Sheet setup
+%% 
+\newcommand{\coursename}{Computer Graphics}
+\newcommand{\courseno}{CO19-320322}
+ 
+\newcommand{\sheettitle}{Problem Sheet}
+\newcommand{\mytitle}{}
+\newcommand{\mytoday}{March 22, 2019}
+
+% Current Assignment number
+\newcounter{assignmentno}
+\setcounter{assignmentno}{1}
+
+% Current Problem number, should always start at 1
+\newcounter{problemno}
+\setcounter{problemno}{1}
+
+%%
+%% problem and bonus environment
+%%
+\newcounter{probcalc}
+\newcommand{\problem}[2]{
+  \pagebreak[2]
+  \setcounter{probcalc}{#2}
+  ~\\
+  {\large \textbf{Problem \arabic{assignmentno}.\arabic{problemno}} \hspace{0.2cm}\textit{#1}} \refstepcounter{problemno}\vspace{2pt}\\}
+
+\newcommand{\bonus}[2]{
+  \pagebreak[2]
+  \setcounter{probcalc}{#2}
+  ~\\
+  {\large \textbf{Bonus Problem \textcolor{blue}{\arabic{assignmentno}}.\textcolor{blue}{\arabic{problemno}}} \hspace{0.2cm}\textit{#1}} \refstepcounter{problemno}\vspace{2pt}\\}
+
+%% some counters  
+\newcommand{\assignment}{\arabic{assignmentno}}
+
+%% solution  
+\newcommand{\solution}{\pagebreak[2]{\bf Solution:}\\}
+
+%% Hyperref Setup
+\hypersetup{pdftitle={Homework \assignment},
+  pdfsubject={\coursename},
+  pdfauthor={},
+  pdfcreator={},
+  pdfkeywords={Computer Graphics},
+  %  pdfpagemode={FullScreen},
+  %colorlinks=true,
+  %bookmarks=true,
+  %hyperindex=true,
+  bookmarksopen=false,
+  bookmarksnumbered=true,
+  breaklinks=true,
+  %urlcolor=darkblue
+  urlbordercolor={0 0 0.7}
+}
+
+\begin{document}
+\coursename \hfill Course: \courseno\\
+Jacobs University Bremen \hfill \mytoday\\
+Dushan Terzikj\hfill
+\vspace*{0.3cm}\\
+\begin{center}
+{\Large \sheettitle{} \assignment\\}
+\end{center}
+
+\problem{}{0}
+\solution
+\begin{enumerate}
+    \item True
+    \item True
+    \item False
+    \item True
+    \item False
+\end{enumerate}
+
+\problem{}{0}
+\solution
+\begin{enumerate}[label=(\alph*)]
+    \item First we need to derive the scaling matrix.
+    \[S=\begin{bmatrix}
+    3&0&0\\
+    0&-1&0\\
+    0&0&1\\
+    \end{bmatrix}\]
+    Then we need to derive the rotation matrix around the z-axis:
+    \[R=\begin{bmatrix}
+    cos\theta&-sin\theta&0\\
+    sin\theta&cos\theta&0\\
+    0&0&1\\
+    \end{bmatrix}\]
+    Since $\theta=\frac{\pi}{2}$, we have:
+    \[R=\begin{bmatrix}
+    0&-1&0\\
+    1&0&0\\
+    0&0&1\\
+    \end{bmatrix}\]
+    Now we need to derive the translation matrix $T$. Since translation is affine, we need to derive it in homogeneous coordinates. The next follows:
+    \[T=\begin{bmatrix}
+    1&0&0&b_x\\
+    0&1&0&0\\
+    0&0&1&0\\
+    0&0&0&1\\
+    \end{bmatrix}
+    =\begin{bmatrix}
+    1&0&0&2\\
+    0&1&0&0\\
+    0&0&1&0\\
+    0&0&0&1\\
+    \end{bmatrix}\]
+    Once we make the rotation matrix $R$ and the scaling matrix $S$ have homogeneous coordinates, we can combine all three matrices to achieve the full transformation matrix $T_t$:\\
+    \[T_t=TRS=
+    \begin{bmatrix}
+    1&0&0&2\\
+    0&1&0&0\\
+    0&0&1&0\\
+    0&0&0&1\\
+    \end{bmatrix}
+    \begin{bmatrix}
+    0&-1&0&0\\
+    1&0&0&0\\
+    0&0&1&0\\
+    0&0&0&1\\
+    \end{bmatrix}
+    \begin{bmatrix}
+    3&0&0&0\\
+    0&-1&0&0\\
+    0&0&1&0\\
+    0&0&0&1\\
+    \end{bmatrix}
+    =\begin{bmatrix}
+    0&-1&0&2\\
+    -3&0&0&0\\
+    0&0&1&0\\
+    0&0&0&1\\
+    \end{bmatrix}
+    \]
+    Once we make our vectors $p_1, p_2, p_3$ homogeneous and put them in a matrix, where its column is a vector $p_i, i=1,2,3$, we can multiply it with $T_t$ which will yield 3 vectors which represent the transformed triangle points:
+    \[\begin{bmatrix}
+    0&-1&0&2\\
+    -3&0&0&0\\
+    0&0&1&0\\
+    0&0&0&1\\
+    \end{bmatrix}
+    \begin{bmatrix}
+    3&2&1\\
+    0&0&1\\
+    2&2&2\\
+    1&1&1\\
+    \end{bmatrix}
+    =\begin{bmatrix}
+    2&2&1\\
+    -9&-6&-3\\
+    2&2&2\\
+    1&1&1\\
+    \end{bmatrix}
+    \]
+    So the corresponding translated vectors $p_1^{'}, p_2^{'}, p_3^{'}$ are $[2, -9, 2]^T$, $[2, -6, 2]^T$, $[1, -3, 2]^T$ respectively.
+    \item Projection matrix P has the following form:
+    \[P=\begin{bmatrix}
+    h&0&0&0\\
+    0&h&0&0\\
+    0&0&a&b\\
+    0&0&1&0\\
+    \end{bmatrix}\]
+    In our case $a=b=1$. Additionally, $h=1$, because the distance from the camera (at point $[0, 0, 1]^T$) and the screen (at point $[0, 0, 0]^T$) is 1.
+    \[P=\begin{bmatrix}
+    1&0&0&0\\
+    0&1&0&0\\
+    0&0&1&1\\
+    0&0&1&0\\
+    \end{bmatrix}\]
+    Now we can apply the projection matrix to the triangle points to project the triangle in 2-D.
+    \[\begin{bmatrix}
+    1&0&0&0\\
+    0&1&0&0\\
+    0&0&1&1\\
+    0&0&1&0\\
+    \end{bmatrix}
+    \begin{bmatrix}
+    2&2&1\\
+    -9&-6&-3\\
+    2&2&2\\
+    1&1&1\\
+    \end{bmatrix}
+    =\begin{bmatrix}
+    2&2&1\\
+    -9&-6&-3\\
+    3&3&3\\
+    2&2&2\\
+    \end{bmatrix}
+    \]
+    To get the actual coordinates, we have to normalize the 4th dimension. In this case the all three vectors can be multiplied by $\frac{1}{2}$ in order to be normalized.
+    \[\Rightarrow\begin{bmatrix}
+    1&1&\frac{1}{2}\\
+    -\frac{9}{2}&-3&-\frac{3}{2}\\
+    \frac{3}{2}&\frac{3}{2}&\frac{3}{2}\\
+    1&1&1\\
+    \end{bmatrix}\]
+    The coordinates on the 2-D plane are $[1, -\frac{9}{2}]^T$, $[1, -3]^T$ and $[\frac{1}{2}, -\frac{3}{2}]^3$. The points go out of bounds and this means that they are not visible on the screen.
+\end{enumerate}
+
+\problem{}{0}
+\solution
+Let the $C$ matrix contain the vectors (column-wise) which represent the points of the cube. Then we have the following matrix (homogeneous coordinate system):
+\[C=\begin{bmatrix}
+1&1&-1&-1&1&1&-1&-1\\
+1&-1&-1&1&1&-1&-1&1\\
+1&1&1&-1&-1&-1&-1&1\\
+1&1&1&1&1&1&1&1\\
+\end{bmatrix}
+\]
+The rotation matrix $H_{ry}$ and the translation matrix $T_x$ are the following (homogeneous coordinate system):
+\[H_{ry}=\begin{bmatrix}
+cos\theta&0&sin\theta&0\\
+0&1&0&0\\
+-sin\theta&0&cos\theta&0\\
+0&0&0&1\\
+\end{bmatrix}
+=\begin{bmatrix}
+\frac{\sqrt{3}}{2}&0&\frac{1}{2}&0\\
+0&1&0&0\\
+-\frac{1}{2}&0&\frac{\sqrt{3}}{2}&0\\
+0&0&0&1\\
+\end{bmatrix}\]
+\[T_x=\begin{bmatrix}
+1&0&0&\frac{1}{2}\\
+0&1&0&0\\
+0&0&1&0\\
+0&0&0&1\\
+\end{bmatrix}\]
+The complete transformation matrix is the following:
+\[T=T_xH_{ry}=\begin{bmatrix}
+1&0&0&\frac{1}{2}\\
+0&1&0&0\\
+0&0&1&0\\
+0&0&0&1\\
+\end{bmatrix}
+\begin{bmatrix}
+\frac{\sqrt{3}}{2}&0&\frac{1}{2}&0\\
+0&1&0&0\\
+-\frac{1}{2}&0&\frac{\sqrt{3}}{2}&0\\
+0&0&0&1\\
+\end{bmatrix}
+=\begin{bmatrix}
+\frac{\sqrt{3}}{2}&0&\frac{1}{2}&\frac{1}{2}\\
+0&1&0&0\\
+-\frac{1}{2}&0&\frac{\sqrt{3}}{2}&0\\
+0&0&0&1\\
+\end{bmatrix}
+\]
+\[
+TC=\begin{bmatrix}
+\frac{\sqrt{3}}{2}&0&\frac{1}{2}&\frac{1}{2}\\
+0&1&0&0\\
+-\frac{1}{2}&0&\frac{\sqrt{3}}{2}&0\\
+0&0&0&1\\
+\end{bmatrix}
+\begin{bmatrix}
+1&1&-1&-1&1&1&-1&-1\\
+1&-1&-1&1&1&-1&-1&1\\
+1&1&1&-1&-1&-1&-1&1\\
+1&1&1&1&1&1&1&1\\
+\end{bmatrix}
+\]
+\[
+=\begin{bmatrix}
+1.87&1.87&0.13&-0.87&0.87&0.87&-0.87&0.13\\
+1&-1&-1&1&1&-1&-1&1\\
+0.37&0.37&1.37&-0.37&-1.37&-1.37&-0.37&1.37\\
+1&1&1&1&1&1&1&1\\
+\end{bmatrix}
+\]
+Note that the matrix was to big for me to handle, so there might be some mistakes in calculations, but the approach is important.
+
+Given a unit cube with vertices $x, y, z \in \{-1, 1\}$ and assuming r = -l and t = -b pick appropriate camera frustum parameters r, l, t, b, f, and n to ensure all points of the cube are in the frustum. Orthographic projection is defined as:
+\[P=\begin{bmatrix}
+\frac{2}{r-1}&0&0&\frac{r+1}{r-1}\\
+0&\frac{2}{t-b}&0&\frac{t+b}{t-b}\\
+0&0&\frac{2}{f-n}&\frac{f+n}{f-n}\\
+0&0&0&1\\
+\end{bmatrix}
+=\begin{bmatrix}
+\frac{1}{r}&0&0&0\\
+0&\frac{1}{t}&0&\frac{t+b}{t-b}\\
+0&0&\frac{2}{f-n}&\frac{f+n}{f-n}\\
+0&0&0&1\\
+\end{bmatrix}
+\]
+
+\end{document}

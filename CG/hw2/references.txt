@@ -1,0 +1,8 @@
+Online References:
+       - https://docs.microsoft.com/en-us/windows/desktop/OpenGL/opengl
+       - http://www.codersource.net/2011/01/27/displaying-text-opengl-tutorial-5/
+       - https://www.opengl.org/resources/libraries/
+       - https://www.khronos.org/registry/OpenGL-Refpages/
+
+Peer references:
+     - Brian Sherif
