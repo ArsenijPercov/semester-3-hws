@@ -1,0 +1,162 @@
+\documentclass[a4paper]{article}
+\usepackage[pdftex]{hyperref}
+\usepackage[latin1]{inputenc}
+\usepackage[english]{babel}
+\usepackage{a4wide}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{ifthen}
+\usepackage{listings}
+% move the asterisk at the right position
+\lstset{basicstyle=\ttfamily,tabsize=4,literate={*}{${}^*{}$}1}
+%\lstset{language=C,basicstyle=\ttfamily}
+\usepackage{moreverb}
+\usepackage{palatino}
+\usepackage{multicol}
+\usepackage{tabularx}
+\usepackage{comment}
+\usepackage{verbatim}
+\usepackage{color}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes.gates.logic.US,shapes.gates.logic.IEC,calc}
+
+\usepackage[left=3cm, right=3cm, top=4cm, bottom=4cm]{geometry}
+
+\usepackage{graphicx}
+
+%% pdflatex?
+\newif\ifpdf
+\ifx\pdfoutput\undefined
+\pdffalse % we are not running PDFLaTeX
+\else
+\pdfoutput=1 % we are running PDFLaTeX
+\pdftrue
+\fi
+\ifpdf
+\usepackage[pdftex]{graphicx}
+\else
+\usepackage{graphicx}
+\fi
+\ifpdf
+\DeclareGraphicsExtensions{.pdf, .jpg}
+\else
+\DeclareGraphicsExtensions{.eps, .jpg}
+\fi
+
+\parindent=0cm
+\parskip=0cm
+
+\setlength{\columnseprule}{0.4pt}
+\addtolength{\columnsep}{2pt}
+
+\addtolength{\textheight}{5.5cm}
+\addtolength{\topmargin}{-26mm}
+\pagestyle{empty}
+
+%%
+%% Sheet setup
+%% 
+\newcommand{\coursename}{Computer Networks}
+\newcommand{\courseno}{CO20-320301}
+ 
+\newcommand{\sheettitle}{Problem Sheet}
+\newcommand{\mytitle}{}
+\newcommand{\mytoday}{April 26, 2019}
+
+% Current Assignment number
+\newcounter{assignmentno}
+\setcounter{assignmentno}{5}
+
+% Current Problem number, should always start at 1
+\newcounter{problemno}
+\setcounter{problemno}{1}
+
+%%
+%% problem and bonus environment
+%%
+\newcounter{probcalc}
+\newcommand{\problem}[2]{
+  \pagebreak[2]
+  \setcounter{probcalc}{#2}
+  ~\\
+  {\large \textbf{Problem \arabic{assignmentno}.\arabic{problemno}} \hspace{0.2cm}\textit{#1}} \refstepcounter{problemno}\vspace{2pt}\\}
+
+\newcommand{\bonus}[2]{
+  \pagebreak[2]
+  \setcounter{probcalc}{#2}
+  ~\\
+  {\large \textbf{Bonus Problem \textcolor{blue}{\arabic{assignmentno}}.\textcolor{blue}{\arabic{problemno}}} \hspace{0.2cm}\textit{#1}} \refstepcounter{problemno}\vspace{2pt}\\}
+
+%% some counters  
+\newcommand{\assignment}{\arabic{assignmentno}}
+
+%% solution  
+\newcommand{\solution}{\pagebreak[2]{\bf Solution:}\\}
+
+%% Hyperref Setup
+\hypersetup{pdftitle={Homework \assignment},
+  pdfsubject={\coursename},
+  pdfauthor={},
+  pdfcreator={},
+  pdfkeywords={Computer Networks},
+  %  pdfpagemode={FullScreen},
+  %colorlinks=true,
+  %bookmarks=true,
+  %hyperindex=true,
+  bookmarksopen=false,
+  bookmarksnumbered=true,
+  breaklinks=true,
+  %urlcolor=darkblue
+  urlbordercolor={0 0 0.7}
+}
+
+\begin{document}
+\coursename \hfill Course: \courseno\\
+Jacobs University Bremen \hfill \mytoday\\
+Dushan Terzikj\hfill
+\vspace*{0.3cm}\\
+\begin{center}
+{\Large \sheettitle{} \assignment\\}
+\end{center}
+
+\problem{}{0}
+\solution
+\begin{enumerate}[label=(\alph*)]
+    \item $SEQ=1030$, $ACK=3848$, $F=\{ACK\}$, $SEQ=4000$.\\
+    The payload (data) transferred is 1200 bytes.
+    \item Segment 12 indicates that the server acknowledged that the data from segment 11 was received from the client, but at the same time the server decreased its window size to 200, letting the client know that the server is only willing to receive 200 bytes. Since the server did not receive any acknowledgement from the client, it increased its window size in order to accommodate the payload from the client. From segment 14 and 15 we see that the client actually wanted to send 1200 bytes, but it could not since the server's window size was 200.
+    \item SACK option lets a receiver tell a sender the ranges of sequence numbers that it has received. It supplements the \textit{Acknowledgement number} and is used after a packet has been lost but subsequent (or duplicate) data has arrived. With SACK, the sender is explicitly aware of what data the receiver has and hence can determine what data should be retransmitted.\\ \\
+    SACK option provides two numbers which represent the range of bytes that the receiver has received.\\ \\
+    This is useful because much of the complexity of TCP comes from inferring from a stream of duplicate ACKs which packets have arrived and which packets have been lost. The cumulative \textit{Acknowledgement number} does not provide this information. With the information \textit{Selective Acknowledgement} provides, the sender can more directly decide what packets to retransmit and track the packets in flight to implement the congestion window.
+    \item SACK can be used in segment 8 to inform the client which packets the server has received. This would make it easier for the client to retransmit only the missing packages and not the whole window. The left edge is 3430 and the right edge is 4630.
+    \item Starting segment 14, the client tries to end the end-to-end communication with the server. The procedure goes as following:\\ \\
+    Seg. 14: once the client sends the $F=\{ACK, FIN\}$, it goes into FIN\_WAIT1.\\
+    Seg. 15: the server receives $F=\{ACK, FIN\}$ from the client and sends a $F=\{ACK, FIN\}$ to the client and the server goes into CLOSE\_WAIT. Once the client receives the $F=\{ACK, FIN\}$ from the server it goes into FIN\_WAIT2.\\
+    Seg. 16: the client then sends the last ACK to the server and the server enters in CLOSED state. \textbf{The client goes into TIME\_WAIT}. After some time, the client does not receive any data from the server so it times-out and the client then goes into CLOSED state as well. 
+\end{enumerate}
+
+\problem{}{0}
+\solution
+\begin{enumerate}[label=(\alph*)]
+    \item The maximum ACK from the server is approximately 1300000, which means there were 1300000 bytes in the interval of $[0.5, 12.5]$. So the average is $\frac{1300000}{12.5-0.5}=108333.33$ B/s.
+    \item The blue TCP segments (or the "stacked" red/brown-ish TCP segments) never go over the green line which represents the receive window size. So in order to find the minimum and the maximum receive window size, we need to find the points where the green line minus the ACK line ($green line - ACK$) is at minimum and maximum. That happens in the points:
+    \begin{enumerate}[label=(\roman*)]
+        \item Minimum: at approximately $t=0$ with approximate size of $30000-0=30000$ bytes.
+        \item Maximum: at any point approximately in the interval $t=[4,6]$ with the approximate size of $800000-500000=300000$ bytes.
+    \end{enumerate}
+    \item \textbf{6 packets}. The red/brownish lines represent TCP segments "stacking up". They cannot be combined nor acknowledged because a TCP segment is missing. Once that TCP segment (from approx $t=12$) is received the server acknowledges it, along with the "stacked" TCP segments. The ACK number increases drastically. The same thing happens with the next 5 (blue) TCP segments and the previously "stacked" TCP segments. The "stacked" TCP segments are received by the server but not acknowledged because of the other (blue) missing TCP segments. \textbf{This makes total of 6 (blue) missing TCP segments}.
+    \item At the very beginning a connection is being established. Once that is done TCP segments are being transferred. At approximately $t=1.5$, some packets are missing and a lot of other TCP segments "stack up". At approximately $t=2.8$ some of the missing segments start making their way to the server and the server starts acknowledging them (along with some other "stacked" TCP segments which have greater SEQ number than the missing segment). The reason this is happening cannot be determined only with the graphs, so guessing that this is happening due to congestion control or bad connection are both equally good guesses. 
+    % This might be happening due to congestion control. In other words, the server is receiving a lot of packages from the client and tells the client to slow down in order for the server to acknowledge every packet and not drop them instead.
+\end{enumerate}
+
+\section*{References}
+\begin{itemize}
+    \item \href{https://networkengineering.stackexchange.com/questions/32312/what-makes-tcp-window-size-keep-changing-e-g-windows}{https://networkengineering.stackexchange.com/questions/32312/what-makes-tcp-window-size-keep-changing-e-g-windows}
+    \item \href{http://packetbomb.com/understanding-the-tcptrace-time-sequence-graph-in-wireshark/}{http://packetbomb.com/understanding-the-tcptrace-time-sequence-graph-in-wireshark/}
+    \item Andrew S. Tanenbaum, David J. Wetherall - Computer Networks - Fifth Edition
+\end{itemize}
+
+\end{document}
