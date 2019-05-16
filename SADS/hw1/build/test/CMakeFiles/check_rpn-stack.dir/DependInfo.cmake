@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/home/terz99/Workspace/homeworks/SDS/hw1/test/check_rpn-stack.c" "/home/terz99/Workspace/homeworks/SDS/hw1/build/test/CMakeFiles/check_rpn-stack.dir/check_rpn-stack.o"
+  "/home/terz99/Workspace/homeworks/SADS/hw1/test/check_rpn-stack.c" "/home/terz99/Workspace/homeworks/SADS/hw1/build/test/CMakeFiles/check_rpn-stack.dir/check_rpn-stack.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 
@@ -15,7 +15,7 @@ set(CMAKE_C_TARGET_INCLUDE_PATH
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
-  "/home/terz99/Workspace/homeworks/SDS/hw1/build/src/CMakeFiles/rpn-stack.dir/DependInfo.cmake"
+  "/home/terz99/Workspace/homeworks/SADS/hw1/build/src/CMakeFiles/rpn-stack.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

@@ -8,7 +8,7 @@
 
 ../src/rpn.h
 
-/home/terz99/Workspace/homeworks/SDS/hw1/test/check_rpn.c
+/home/terz99/Workspace/homeworks/SADS/hw1/test/check_rpn.c
 stdlib.h
 -
 stdio.h
@@ -16,5 +16,5 @@ stdio.h
 check.h
 -
 rpn.h
-/home/terz99/Workspace/homeworks/SDS/hw1/test/rpn.h
+/home/terz99/Workspace/homeworks/SADS/hw1/test/rpn.h
 

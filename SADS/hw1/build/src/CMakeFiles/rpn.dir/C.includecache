@@ -6,9 +6,9 @@
 
 #IncludeRegexTransform: 
 
-/home/terz99/Workspace/homeworks/SDS/hw1/src/rpn-stack.h
+/home/terz99/Workspace/homeworks/SADS/hw1/src/rpn-stack.h
 
-/home/terz99/Workspace/homeworks/SDS/hw1/src/rpn.c
+/home/terz99/Workspace/homeworks/SADS/hw1/src/rpn.c
 stdlib.h
 -
 stdio.h
@@ -16,9 +16,9 @@ stdio.h
 string.h
 -
 rpn.h
-/home/terz99/Workspace/homeworks/SDS/hw1/src/rpn.h
+/home/terz99/Workspace/homeworks/SADS/hw1/src/rpn.h
 rpn-stack.h
-/home/terz99/Workspace/homeworks/SDS/hw1/src/rpn-stack.h
+/home/terz99/Workspace/homeworks/SADS/hw1/src/rpn-stack.h
 
-/home/terz99/Workspace/homeworks/SDS/hw1/src/rpn.h
+/home/terz99/Workspace/homeworks/SADS/hw1/src/rpn.h
 

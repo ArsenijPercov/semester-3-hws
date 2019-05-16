@@ -1,0 +1,230 @@
+\documentclass[a4paper]{article}
+\usepackage[pdftex]{hyperref}
+\usepackage[latin1]{inputenc}
+\usepackage[english]{babel}
+\usepackage{a4wide}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{ifthen}
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily,
+  showstringspaces=false,
+  commentstyle=\color{red},
+  keywordstyle=\color{blue}
+}
+\usepackage{xcolor}
+% move the asterisk at the right position
+\lstset{basicstyle=\ttfamily,tabsize=4,literate={*}{${}^*{}$}1}
+%\lstset{language=C,basicstyle=\ttfamily}
+\usepackage{moreverb}
+\usepackage{palatino}
+\usepackage{multicol}
+\usepackage{tabularx}
+\usepackage{comment}
+\usepackage{verbatim}
+\usepackage{color}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes.gates.logic.US,shapes.gates.logic.IEC,calc}
+
+\usepackage[left=3cm, right=3cm, top=4cm, bottom=4cm]{geometry}
+
+\usepackage{fancyvrb}
+
+% redefine \VerbatimInput
+\RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}%
+{fontsize=\footnotesize,
+ %
+ frame=lines,  % top and bottom rule only
+ framesep=1em, % separation between frame and text
+ rulecolor=\color{gray},
+ %
+ %
+%  commandchars=\|\(\), % escape character and argument delimiters for
+                      % commands within the verbatim
+%  commentchar=*        % comment character
+}
+
+%% pdflatex?
+\newif\ifpdf
+\ifx\pdfoutput\undefined
+\pdffalse % we are not running PDFLaTeX
+\else
+\pdfoutput=1 % we are running PDFLaTeX
+\pdftrue
+\fi
+\ifpdf
+\DeclareGraphicsExtensions{.pdf, .jpg}
+\else
+\DeclareGraphicsExtensions{.eps, .jpg}
+\fi
+
+\parindent=0cm
+\parskip=0cm
+
+\setlength{\columnseprule}{0.4pt}
+\addtolength{\columnsep}{2pt}
+
+\addtolength{\textheight}{5.5cm}
+\addtolength{\topmargin}{-26mm}
+\pagestyle{empty}
+
+%%
+%% Sheet setup
+%% 
+\newcommand{\coursename}{Computer Networks}
+\newcommand{\courseno}{CO20-320301}
+ 
+\newcommand{\sheettitle}{Problem Sheet}
+\newcommand{\mytitle}{}
+\newcommand{\mytoday}{May 10, 2019}
+
+% Current Assignment number
+\newcounter{assignmentno}
+\setcounter{assignmentno}{6}
+
+% Current Problem number, should always start at 1
+\newcounter{problemno}
+\setcounter{problemno}{1}
+
+%%
+%% problem and bonus environment
+%%
+\newcounter{probcalc}
+\newcommand{\problem}[2]{
+  \pagebreak[2]
+  \setcounter{probcalc}{#2}
+  ~\\
+  {\large \textbf{Problem \arabic{assignmentno}.\arabic{problemno}} \hspace{0.2cm}\textit{#1}} \refstepcounter{problemno}\vspace{2pt}\\}
+
+\newcommand{\bonus}[2]{
+  \pagebreak[2]
+  \setcounter{probcalc}{#2}
+  ~\\
+  {\large \textbf{Bonus Problem \textcolor{blue}{\arabic{assignmentno}}.\textcolor{blue}{\arabic{problemno}}} \hspace{0.2cm}\textit{#1}} \refstepcounter{problemno}\vspace{2pt}\\}
+
+%% some counters  
+\newcommand{\assignment}{\arabic{assignmentno}}
+
+%% solution  
+\newcommand{\solution}{\pagebreak[2]{\bf Solution:}\\}
+
+%% Hyperref Setup
+\hypersetup{pdftitle={Homework \assignment},
+  pdfsubject={\coursename},
+  pdfauthor={},
+  pdfcreator={},
+  pdfkeywords={Computer Networks},
+  %  pdfpagemode={FullScreen},
+  %colorlinks=true,
+  %bookmarks=true,
+  %hyperindex=true,
+  bookmarksopen=false,
+  bookmarksnumbered=true,
+  breaklinks=true,
+  %urlcolor=darkblue
+  urlbordercolor={0 0 0.7}
+}
+
+\begin{document}
+\coursename \hfill Course: \courseno\\
+Jacobs University Bremen \hfill \mytoday\\
+Dushan Terzikj\hfill
+\vspace*{0.3cm}\\
+\begin{center}
+{\Large \sheettitle{} \assignment\\}
+\end{center}
+
+\problem{}{0}
+\solution
+\begin{enumerate}[label=(\alph*)]
+    \item 
+    \begin{lstlisting}
+    dig grader.eecs.jacobs-university.de AAAA
+    \end{lstlisting}
+    Using the above command, the domain name \textit{grader.eecs.jacobs-university.de} is resolved to an IPv6 address. One query is sent to the DNS resolver. If the resolver has the name cached, then the IP address is returned. If not, then the resolver breaks the name up into its labels from right to left. Using the rightmost label (TLD) the resolver queries the root server. One of the 13 root servers will obtain the authoritative server. Queries for each label then return more specific name servers until a name server returns the answer to the original query. The answer section of an AAAA record has the format:
+    \VerbatimInput{AAAA.out}
+     The \textit{dig} trace contains an \textbf{OPT} pseudosection which means EDNS is used to resolve the name. The answer section contains 2 lines, one of which looks for the canonical name of \textit{grader.eecs.jacobs-university.de} which is \textit{cantaloupe.eecs.jacobs-university.de}. Then that name is resolved into the IPv6 address 2001:638:709:3000::29.\\ \\
+    Here is the \textit{dig} trace:
+    \VerbatimInput{6.1a.out}
+    \item SRV or Service record is a RR type in the DNS name resolution which defines a location (host and port) of servers for specified services (SMTP, FTP, HTTP, etc.). This means that one can take any service like FTP or HTTP and spread them across as many servers as one wants. Then one can designate which server takes priority over others, distribute load and provide backup services if a service fails. It is defined firstly in RFC 2052, but then obsoleted by RFC 2782. This is the format:
+    \VerbatimInput{SRV-format.out}
+    \begin{itemize}
+        \item \textbf{Service}: The symbolic name of the desired service.
+        \item \textbf{Proto}: The symbolic name of the desired protocol. 
+        \item \textbf{Name}: The domain this RR refers to.
+        \item \textbf{TTL}: Time to live.
+        \item \textbf{Class}: Protocol-specific namespace. SRV records occur in the IN class.
+        \item \textbf{Priority}: The priority of the target host (more about this below).
+        \item \textbf{Weight}: Field which specifies a relative weight for entries with the same priority (more about this below).
+        \item \textbf{Port}: The port on this target host of this service.
+        \item \textbf{Target}: The domain name of the target host.
+    \end{itemize}
+    Here is an SRV record example (could not find a real-life example since rarely any server contains SRV records):
+    \VerbatimInput{SRV.out}
+    
+    \textbf{Priority} of the target host: a client must attempt to contact the target host with the lowest-numbered priority it can reach. If multiple target hosts have the same priority, then target hosts should be tried in an order defined by the weight field. The \textbf{weight} field provides a server selection mechanism. The weight field specifies a relative weight for entries with the same priority. Larger weights are given higher priority of being selected. 
+    
+    \item It does make sense to use SRV RRs for HTTP servers. For example browsers can resolve one name into more hosts and order them by their priority and weight and if the former ones are unavailable, try the later one and so on.\\ \\
+    \textbf{PROS:}
+    \begin{itemize}
+        \item Since one name can be resolved in multiple hosts, ordered by weight and priority, if the first host fails and/or it's down, one can try the second host, and so on.
+        \item SRV records also provide a way to run a service on an alternate port. This would be a good feature for people who try to run services on their home machines. Many ISP's block popular incoming ports but leave open many others. So an ISP that blocks port, for example, 80 could easily be worked around with SRV records. 
+    \end{itemize}
+    \textbf{CONS:}
+    \begin{itemize}
+        \item Requires more than one query to the DNS to do the lookup. 
+        \item According to reference (3), DNS admins are not willing put in the records because clients do not use them. Clients would not write the code to use the SRV records because the DNS admins would not put in the records. Therefore, it is difficult to implement in state-of-the-art browsers.
+    \end{itemize}
+    \item EDNS0 is an extension from EDNS which means Extension mechanisms for DNS. It's a specification for expanding the size of several parameters of the DNS protocol which had size restrictions that Internet engineering community deemed too limited for increasing functionality of the protocol. EDNS was defined in RFC 2671 and it was updated in RFC 6891 which defined EDNS0.
+    \begin{itemize}
+        \item \textbf{CLASS}: requestor's UPD payload size. This is the number of octets of the largest UDP payload that can be reassembled and delivered in the requestor's network stack.
+        \item \textbf{TTL}: extended RCODE and flags. It's structured as follows:
+        \VerbatimInput{TTL.out}
+        \begin{itemize}
+            \item \textbf{EXTENDED-RCODE}: forms the upper 8 bits of an extended 12-bit RCODE.
+            \item \textbf{VERSION}: indicates the implementation level of the setter.
+            \item \textbf{FLAGS}:
+            \begin{itemize}
+                \item \textbf{DO}: DNSSEC OK bit defined in RFC 3225.
+                \item \textbf{Z}: set to 0 by senders and ignored by receivers, unless modified in a subsequent specification.
+            \end{itemize}
+        \end{itemize}
+    \end{itemize}
+    \item When you query A records for the domain \textit{amazon.com}, you get different IPv4 addresses from each of the three servers provided. When you query AAAA records for the domain \textit{amazon.com}, you get the same answer form all three provided servers: an \textbf{authority section} which returns you an SOA record.\\ \\
+    \textbf{SOA} record is a Start Of Authority record which contains administrative information about the DNS zone, especially regarding DNS zone transfers (defined in RFC 1035). It's structure contains \textbf{name} (of the zone), \textbf{IN}, \textbf{SOA}, \textbf{MNAME} (master name for this zone), \textbf{RNAME} (email address for the admin responsible for this zone in a non-email format), \textbf{SERIAL} (serial number for this zone), \textbf{REFRESH} (number of seconds after which secondary name servers should query the master), \textbf{RETRY} (number of seconds after which secondary name servers should retry), \textbf{EXPIRE} (number of seconds after which secondary name servers should stop answering requests), \textbf{TTL} (time to live).\\ \\
+    Here is a \textit{dig} trace:
+    \VerbatimInput{SOA.out}
+\end{enumerate}
+
+\problem{}{0}
+\solution
+\begin{enumerate}[label=(\alph*)]
+    \item Multicast DNS (mDNS) protocol resolves host names to IP addresses within small networks that do not include a local name server and uses IP multicast UDP packets. It was defined in RFC 6762.\\ \\
+    Multicast DNS (mDNS) provides the ability to perform DNS-like operations on the local link in the absence of any conventional Unicast DNS server.  In addition, Multicast DNS designates a portion of the DNS namespace to be free for local use, without the need to pay any annual fee, and without the need to set up delegations or otherwise configure a conventional DNS server to answer for those names.
+    \item DNS-SD allows clients to discover a named list of service instances. Given a type of services, it resolves those services to hostnames using standard DNS queries. Works well with both usual unicast DNS server and mDNS (in a zero-configuration environment - set of technologies that automatically create a usable network based on TCP/IP when devices are interconnected).\\ \\
+    DNS-SD most efficiently uses the records PTR (pointer to another part of the namespace), SRV and TXT (arbitrary ASCII text). A client discovers a list of available instances for a given type of service by querying DNS PTR of that zervers. The server will either return zero or names of the form "$<Service>.<Domain>$", each corresponding to a SRV/TXT record pair. The SRV record resolves to the domain name providing the instance, while the TXT can contain service-specific configuration parameter. Then a client can resolve A/AAAA record for the domain name and connect to the service.
+\end{enumerate}
+
+\section*{References}
+\begin{enumerate}
+    \item \href{https://tools.ietf.org/html/rfc2782}{https://tools.ietf.org/html/rfc2782}
+\item \href{https://tools.ietf.org/html/rfc1035}{https://tools.ietf.org/html/rfc1035}
+\item \href{http://www.pantz.org./software/bind/srvdnsrecords.html}{http://www.pantz.org./software/bind/srvdnsrecords.html}
+\item \href{https://en.wikipedia.org/wiki/SRV\_record}{https://en.wikipedia.org/wiki/SRV\_record}
+\item \href{https://en.wikipedia.org/wiki/Extension\_mechanisms\_for\_DNS}{https://en.wikipedia.org/wiki/Extension\_mechanisms\_for\_DNS}
+\item \href{https://tools.ietf.org/html/rfc6891}{https://tools.ietf.org/html/rfc6891}
+\item \href{https://tools.ietf.org/html/rfc3225}{https://tools.ietf.org/html/rfc3225}
+\item \href{https://en.wikipedia.org/wiki/Multicast\_DNS}{https://en.wikipedia.org/wiki/Multicast\_DNS}
+\item \href{https://tools.ietf.org/html/rfc6762}{https://tools.ietf.org/html/rfc6762}
+\item \href{https://en.wikipedia.org/wiki/Zero-configuration\_networking}{https://en.wikipedia.org/wiki/Zero-configuration\_networking}
+\item \href{https://tools.ietf.org/html/rfc6763}{https://tools.ietf.org/html/rfc6763}
+\item \href{https://en.wikipedia.org/wiki/Root\_name\_server}{https://en.wikipedia.org/wiki/Root\_name\_server}
+\item \href{https://en.wikipedia.org/wiki/SOA\_record}{https://en.wikipedia.org/wiki/SOA\_record}
+\item \href{https://tools.ietf.org/html/rfc1035}{https://tools.ietf.org/html/rfc1035}
+\end{enumerate}
+
+\end{document}

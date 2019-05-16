@@ -1,0 +1,205 @@
+\documentclass[a4paper]{article}
+\usepackage[pdftex]{hyperref}
+\usepackage[latin1]{inputenc}
+\usepackage[english]{babel}
+\usepackage{a4wide}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{ifthen}
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily,
+  showstringspaces=false,
+  commentstyle=\color{red},
+  keywordstyle=\color{blue}
+}
+\usepackage{xcolor}
+% move the asterisk at the right position
+\lstset{basicstyle=\ttfamily,tabsize=4,literate={*}{${}^*{}$}1}
+%\lstset{language=C,basicstyle=\ttfamily}
+\usepackage{moreverb}
+\usepackage{palatino}
+\usepackage{multicol}
+\usepackage{tabularx}
+\usepackage{comment}
+\usepackage{verbatim}
+\usepackage{color}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes.gates.logic.US,shapes.gates.logic.IEC,calc}
+
+\usepackage[left=3cm, right=3cm, top=4cm, bottom=4cm]{geometry}
+
+\usepackage{fancyvrb}
+
+% redefine \VerbatimInput
+\RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}%
+{fontsize=\footnotesize,
+ %
+%  frame=lines,  % top and bottom rule only
+%  framesep=1em, % separation between frame and text
+%  rulecolor=\color{gray},
+ %
+ %
+%  commandchars=\|\(\), % escape character and argument delimiters for
+                      % commands within the verbatim
+%  commentchar=*        % comment character
+}
+
+%% pdflatex?
+\newif\ifpdf
+\ifx\pdfoutput\undefined
+\pdffalse % we are not running PDFLaTeX
+\else
+\pdfoutput=1 % we are running PDFLaTeX
+\pdftrue
+\fi
+\ifpdf
+\DeclareGraphicsExtensions{.pdf, .jpg}
+\else
+\DeclareGraphicsExtensions{.eps, .jpg}
+\fi
+
+\parindent=0cm
+\parskip=0cm
+
+\setlength{\columnseprule}{0.4pt}
+\addtolength{\columnsep}{2pt}
+
+\addtolength{\textheight}{5.5cm}
+\addtolength{\topmargin}{-26mm}
+\pagestyle{empty}
+
+%%
+%% Sheet setup
+%% 
+\newcommand{\coursename}{Secure and Dependable Systems}
+\newcommand{\courseno}{CO21-320203}
+ 
+\newcommand{\sheettitle}{Problem Sheet}
+\newcommand{\mytitle}{}
+\newcommand{\mytoday}{March 28, 2019}
+
+% Current Assignment number
+\newcounter{assignmentno}
+\setcounter{assignmentno}{5}
+
+% Current Problem number, should always start at 1
+\newcounter{problemno}
+\setcounter{problemno}{1}
+
+%%
+%% problem and bonus environment
+%%
+\newcounter{probcalc}
+\newcommand{\problem}[2]{
+  \pagebreak[2]
+  \setcounter{probcalc}{#2}
+  ~\\
+  {\large \textbf{Problem \arabic{assignmentno}.\arabic{problemno}} \hspace{0.2cm}\textit{#1}} \refstepcounter{problemno}\vspace{2pt}\\}
+
+\newcommand{\bonus}[2]{
+  \pagebreak[2]
+  \setcounter{probcalc}{#2}
+  ~\\
+  {\large \textbf{Bonus Problem \textcolor{blue}{\arabic{assignmentno}}.\textcolor{blue}{\arabic{problemno}}} \hspace{0.2cm}\textit{#1}} \refstepcounter{problemno}\vspace{2pt}\\}
+
+%% some counters  
+\newcommand{\assignment}{\arabic{assignmentno}}
+
+\makeatletter
+\def\BState{\State\hskip-\ALG@thistlm}
+\makeatother
+
+%% solution  
+\newcommand{\solution}{\pagebreak[2]{\bf Solution:}\\}
+
+%% Hyperref Setup
+\hypersetup{pdftitle={Homework \assignment},
+  pdfsubject={\coursename},
+  pdfauthor={},
+  pdfcreator={},
+  pdfkeywords={Computer Networks},
+  %  pdfpagemode={FullScreen},
+  %colorlinks=true,
+  %bookmarks=true,
+  %hyperindex=true,
+  bookmarksopen=false,
+  bookmarksnumbered=true,
+  breaklinks=true,
+  %urlcolor=darkblue
+  urlbordercolor={0 0 0.7}
+}
+
+\begin{document}
+\coursename \hfill Course: \courseno\\
+Jacobs University Bremen \hfill \mytoday\\
+Dushan Terzikj\hfill
+\vspace*{0.3cm}\\
+\begin{center}
+{\Large \sheettitle{} \assignment\\}
+\end{center}
+
+\problem{}{0}
+\solution
+\begin{enumerate}[label=(\alph*)]
+    \item $30001357+348641573=378642930$
+    \item When a secret key (private key) is compromised, a PGP revocation cerificate is generated and then uploaded to a keyserver. This tells everyone else who is using your public key that your private key has been compromised and it's not invalid.
+\end{enumerate}
+
+\problem{}{0}
+\solution
+\begin{enumerate}[label=(\alph*)]
+    \item Instruction on creating a key pair with RSA, DES3 hashing algorithm and size 2048 bits: 
+    \VerbatimInput{openssl-genrsa.sh}
+    Instruction on extracting the public key:
+    \VerbatimInput{openssl-pubout.sh}
+    Take a look at \textit{my-public-key.pem} for the public key which was extracted by the above command.
+    \item Instruction on generating a CSR:
+    \VerbatimInput{openssl-req.sh}
+    The content of the CSR generated (in text format using \textit{-noout -text}):
+    \VerbatimInput{my-csr-file.txt}
+    \item In order to setup a CA on an Ubuntu server, the following steps need to be executed:
+    \begin{enumerate}[label=(\arabic*)]
+        \item Create a directory which contains the following directories: \textbf{certs}, \textbf{crl}, \textbf{newcerts}, \textbf{private} (used for private keys, I moved my private key here), \textbf{requests} (for CSR's, I moved my CSR here).
+        \item Create an empty file \textit{index.txt}
+        \item Create a file \textit{serial} which will contain the serial number. My serial number is $1234$.
+        \item Use the private key to generate a root certificate:
+        \VerbatimInput{openssl-x509.sh}
+        Leave this certificate in the parent directory.
+    \end{enumerate}
+    \item First, the \textit{openssl.cnf} (openssl config file) must be set so that the main directory points to the parent directory created in (c) and the private key points to the private key in the \textbf{private} directory (which in our case is \textit{my-private-key.pem}. After that make sure you are in the \textbf{requests} directory (which contains our CSR \textit{my-csr-file.csr} which we generated in (b). The instruction is the following one:
+    \VerbatimInput{openssl-ca.sh}
+    The signed certificate can be found in the \textbf{certs} directory.
+    \item Everything is uploaded in the \textit{DushanTerzikj-CA.zip} file expect for the private key. Certificates are in \textbf{certs}, requests are in \textbf{requests}. It is the same parent directory explained in (c). 
+\end{enumerate}
+
+\problem{}{0}
+\solution
+\begin{enumerate}[label=(\alph*)]
+    \item The certificate presented by \textit{cnds.jacobs-university.de} has a validity period from 19.09.2018 until 21.12.2020. All the certificates in the certificate chain are valid:
+    \begin{itemize}
+        \item \textbf{DFN-Verein Global Issuing CA}: 24.05.2016 - 23.02.2031.
+        \item \textbf{DFN-Verein Certification Authority 2}: 22.02.2016 - 23.02.2031.
+        \item \textbf{Builtin Object Token:T-TeleSec GlobalRoot Class 2}: 01.10.2008 - 02.10.2033.
+    \end{itemize}
+    \item OCSP is a way for a web browser to determine the validity of an SSL certificate by verifying with the vendor of the certificate. With OCSP \textit{stapling}, the web server downloads a copy of the vendor's response which it can deliver directly to the browser. Here are the steps:
+    \begin{enumerate}[label=(\arabic*)]
+        \item A web server hosting an SSL-encrypted website queries the certificate vendor. The vendor responds with the status of the certificate and digitally signed time-stamp. Digitally signing the response makes it difficult for the web server to modify it.
+        \item When a web browser connects to the server, the server staples the vendor's signed time-stamp with the SSL certificate.
+        \item The browser verifies the time-stamp. Since the time-stamp is signed by the vendor, the browser can trust the time-stamp to provide a valid status.
+        \item Based on the OCSP response, the browser either opens the page or shows an error message to the user. 
+    \end{enumerate}
+    \textit{cnds.jacobs-university.de} does not support OCSP, but \textit{beadg.de} does.
+\end{enumerate}
+
+\section*{References}
+\begin{enumerate}[label=(\arabic*)]
+    \item \href{https://www.maxcdn.com/one/visual-glossary/ocsp-stapling/}{https://www.maxcdn.com/one/visual-glossary/ocsp-stapling/}
+    \item \href{https://rietta.com/blog/2012/01/27/openssl-generating-rsa-key-from-command/}{https://rietta.com/blog/2012/01/27/openssl-generating-rsa-key-from-command/}
+    \item \href{https://knowledge.digicert.com/solution/SO6411.html}{https://knowledge.digicert.com/solution/SO6411.html}
+\end{enumerate}
+
+\end{document}

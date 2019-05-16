@@ -1,4 +1,4 @@
-# Install script for directory: /home/terz99/Workspace/homeworks/SDS/hw1/src
+# Install script for directory: /home/terz99/Workspace/homeworks/SADS/hw1/src
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

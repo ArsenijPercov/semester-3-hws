@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/home/terz99/Workspace/homeworks/SDS/hw1/src/rpn-stack.c" "/home/terz99/Workspace/homeworks/SDS/hw1/build/src/CMakeFiles/rpn-stack.dir/rpn-stack.o"
+  "/home/terz99/Workspace/homeworks/SADS/hw1/src/rpn-stack.c" "/home/terz99/Workspace/homeworks/SADS/hw1/build/src/CMakeFiles/rpn-stack.dir/rpn-stack.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 

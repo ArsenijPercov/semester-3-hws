@@ -6,13 +6,13 @@
 
 #IncludeRegexTransform: 
 
-/home/terz99/Workspace/homeworks/SDS/hw1/src/rpn-stack.c
+/home/terz99/Workspace/homeworks/SADS/hw1/src/rpn-stack.c
 stdlib.h
 -
 stdio.h
 -
 rpn-stack.h
-/home/terz99/Workspace/homeworks/SDS/hw1/src/rpn-stack.h
+/home/terz99/Workspace/homeworks/SADS/hw1/src/rpn-stack.h
 
-/home/terz99/Workspace/homeworks/SDS/hw1/src/rpn-stack.h
+/home/terz99/Workspace/homeworks/SADS/hw1/src/rpn-stack.h
 
